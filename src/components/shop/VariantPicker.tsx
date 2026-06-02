@@ -4,15 +4,22 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { formatEuros } from '@/lib/money'
 import type { ProductVariantView } from '@/features/catalog/queries'
+import { useCart } from '@/features/cart/store'
 
 export function VariantPicker({
+  productId,
   productName,
+  image,
   variants,
 }: {
+  productId: string
   productName: string
+  image?: string | null
   variants: ProductVariantView[]
 }) {
+  const add = useCart((s) => s.add)
   const [selectedId, setSelectedId] = useState(variants[0]?.id)
+  const [added, setAdded] = useState(false)
   const selected = variants.find((v) => v.id === selectedId) ?? variants[0]
 
   if (!selected) {
@@ -20,6 +27,21 @@ export function VariantPicker({
   }
 
   const outOfStock = selected.stock <= 0
+
+  function handleAdd() {
+    if (!selected || outOfStock) return
+    add({
+      variantId: selected.id,
+      productId,
+      name: `${productName} — ${selected.label}`,
+      unitPriceCents: selected.priceCents,
+      qty: 1,
+      image: image ?? undefined,
+      maxStock: selected.stock,
+    })
+    setAdded(true)
+    setTimeout(() => setAdded(false), 1500)
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -50,15 +72,14 @@ export function VariantPicker({
         </span>
       </div>
 
-      {/* TODO Plan 3 : brancher l'ajout au panier (store Zustand). */}
       <Button
         size="lg"
         disabled={outOfStock}
+        onClick={handleAdd}
         data-testid="add-to-cart"
-        data-variant-id={selected.id}
         aria-label={`Ajouter au panier ${productName}`}
       >
-        Ajouter au panier
+        {added ? 'Ajouté ✓' : 'Ajouter au panier'}
       </Button>
     </div>
   )

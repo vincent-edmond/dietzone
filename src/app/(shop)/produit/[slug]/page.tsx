@@ -61,7 +61,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
           )}
 
-          <VariantPicker productName={p.name} variants={p.variants} />
+          <VariantPicker
+            productId={p.id}
+            productName={p.name}
+            image={p.images[0]}
+            variants={p.variants}
+          />
 
           {p.description && (
             <div className="mt-4 border-t border-neutral-200 pt-4">
