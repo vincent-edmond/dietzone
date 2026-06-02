@@ -53,7 +53,7 @@ export default async function HomePage() {
             />
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-neutral-300">
-            Protéines, créatine, pre-workout — les meilleures marques, sélectionnées par Alexandre,
+            Protéines, créatine, pre-workout : les meilleures marques, sélectionnées par Alexandre,
             ton expert à St-Denis. Livraison sur l’île ou retrait magasin.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
