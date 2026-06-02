@@ -16,32 +16,38 @@ export function ProductCard({
   return (
     <Link
       href={`/produit/${p.slug}`}
-      className="group flex flex-col overflow-hidden rounded-lg border border-neutral-200 bg-white transition hover:shadow-md"
+      className="group flex flex-col overflow-hidden rounded-xl border-2 border-neutral-200 bg-white transition-all hover:-translate-y-1 hover:border-primary hover:shadow-xl"
     >
-      <div className="relative flex aspect-square items-center justify-center bg-neutral-50">
+      <div className="relative flex aspect-square items-center justify-center bg-gradient-to-br from-neutral-100 to-neutral-200">
         {p.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={p.image} alt={p.name} className="h-full w-full object-contain p-4" />
         ) : (
-          <span className="text-3xl font-bold text-neutral-300">{p.name.charAt(0)}</span>
+          <span className="font-heading text-6xl font-extrabold text-neutral-300">
+            {p.name.charAt(0)}
+          </span>
         )}
         {!p.inStock && (
-          <span className="absolute left-2 top-2 rounded bg-neutral-800 px-2 py-0.5 text-xs font-medium text-white">
-            En rupture
+          <span className="absolute left-2 top-2 rounded bg-neutral-900 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+            Rupture
           </span>
         )}
         {discounted && (
-          <span className="absolute right-2 top-2 rounded bg-[#0A2540] px-2 py-0.5 text-xs font-bold text-white">
-            PRO
+          <span className="absolute right-2 top-2 rounded bg-[#0A2540] px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+            Prix PRO
           </span>
         )}
       </div>
-      <div className="flex flex-1 flex-col gap-1 p-3">
-        {p.brand && <span className="text-xs uppercase tracking-wide text-neutral-500">{p.brand}</span>}
-        <span className="line-clamp-2 text-sm font-medium text-neutral-900">{p.name}</span>
-        <span className="mt-auto flex items-baseline gap-2 pt-1">
-          <span className="text-base font-bold text-neutral-900">
-            <span className="text-xs font-normal text-neutral-500">dès </span>
+      <div className="flex flex-1 flex-col gap-1 p-4">
+        {p.brand && (
+          <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+            {p.brand}
+          </span>
+        )}
+        <span className="line-clamp-2 text-sm font-semibold text-neutral-900">{p.name}</span>
+        <span className="mt-auto flex items-baseline gap-2 pt-2">
+          <span className="text-xl font-extrabold text-neutral-900">
+            <span className="text-xs font-medium text-neutral-400">dès </span>
             {formatEuros(shown)}
           </span>
           {discounted && (

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Truck, Store, ShieldCheck, MessageCircle } from 'lucide-react'
+import { Truck, Store, ShieldCheck, Dumbbell, ArrowRight } from 'lucide-react'
 import { listProducts } from '@/features/catalog/queries'
 import { getPricingContext } from '@/features/pro/context'
 import { listBrands } from '@/features/catalog/taxonomy'
@@ -8,10 +8,10 @@ import { ObjectiveTiles } from '@/components/shop/home/ObjectiveTiles'
 import { buttonVariants } from '@/components/ui/button'
 
 const REASSURANCE = [
-  { icon: Truck, t: 'Livraison sur toute l’île', d: 'Réunion 974, rapide' },
+  { icon: Truck, t: 'Livraison île', d: 'Réunion 974' },
   { icon: Store, t: 'Retrait magasin', d: 'St-Denis, gratuit' },
   { icon: ShieldCheck, t: 'Paiement sécurisé', d: 'Carte bancaire' },
-  { icon: MessageCircle, t: 'Conseils d’expert', d: 'Assistant & magasin' },
+  { icon: Dumbbell, t: 'Marques premium', d: 'Gaspari, C4, NPL…' },
 ]
 
 export default async function HomePage() {
@@ -24,78 +24,133 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="border-b border-neutral-200 bg-gradient-to-b from-neutral-50 to-white">
-        <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:py-24">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
+      {/* ===== HERO — sombre & explosif ===== */}
+      <section className="relative overflow-hidden bg-neutral-950 text-white">
+        {/* glow rouge */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_-10%,rgba(225,29,42,0.45),transparent_70%)]" />
+        <div className="pointer-events-none absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
+
+        <div className="relative mx-auto max-w-6xl px-4 py-24 text-center sm:py-32">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
             Nutrition sportive · La Réunion
           </p>
-          <h1 className="mx-auto mt-4 max-w-4xl text-5xl font-extrabold uppercase leading-[0.95] tracking-tight sm:text-7xl">
-            Atteignez vos objectifs avec les{' '}
-            <span className="text-primary">meilleures marques</span>
+          <h1 className="mx-auto mt-5 max-w-5xl text-5xl font-extrabold uppercase leading-[0.88] tracking-tight sm:text-7xl lg:text-8xl">
+            Dépasse tes limites.
+            <br />
+            <span className="text-primary">Performe.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-neutral-600">
-            Protéines, créatine, pre-workout et plus — sélectionnés par Alexandre, votre expert à
-            St-Denis. Livraison sur l’île ou retrait en magasin.
+          <p className="mx-auto mt-6 max-w-xl text-lg text-neutral-300">
+            Protéines, créatine, pre-workout — les meilleures marques, sélectionnées par Alexandre,
+            ton expert à St-Denis. Livraison sur l’île ou retrait magasin.
           </p>
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <Link href="/boutique" className={buttonVariants({ size: 'lg' })}>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/boutique"
+              className={`${buttonVariants({ size: 'lg' })} h-14 px-8 text-base font-bold uppercase tracking-wide`}
+            >
               Découvrir la boutique
+              <ArrowRight className="ml-1 h-5 w-5" />
             </Link>
             <Link
               href="/pro"
-              className={buttonVariants({ size: 'lg', variant: 'outline' })}
+              className="inline-flex h-14 items-center justify-center rounded-md border-2 border-white/25 px-8 text-base font-bold uppercase tracking-wide text-white transition hover:border-white hover:bg-white hover:text-neutral-950"
             >
               Espace PRO
             </Link>
           </div>
         </div>
+
+        {/* bandeau réassurance intégré (sur fond sombre) */}
+        <div className="relative border-t border-white/10">
+          <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-white/10 sm:grid-cols-4">
+            {REASSURANCE.map((r) => (
+              <div key={r.t} className="flex items-center justify-center gap-3 px-4 py-5">
+                <r.icon className="h-6 w-6 shrink-0 text-primary" />
+                <div className="text-left">
+                  <p className="text-sm font-bold uppercase tracking-wide">{r.t}</p>
+                  <p className="text-xs text-neutral-400">{r.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* Objectifs */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <h2 className="text-2xl font-bold tracking-tight">Achetez par objectif</h2>
-        <div className="mt-6">
+      {/* ===== OBJECTIFS ===== */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="flex items-end gap-3">
+          <span className="h-8 w-1.5 rounded bg-primary" />
+          <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
+            Achète par objectif
+          </h2>
+        </div>
+        <div className="mt-8">
           <ObjectiveTiles />
         </div>
       </section>
 
-      {/* Best-sellers */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold tracking-tight">Nos produits</h2>
-          <Link href="/boutique" className="text-sm font-medium text-primary hover:underline">
-            Voir tout
+      {/* ===== PRODUITS ===== */}
+      <section className="mx-auto max-w-6xl px-4 pb-16">
+        <div className="flex items-end justify-between">
+          <div className="flex items-end gap-3">
+            <span className="h-8 w-1.5 rounded bg-primary" />
+            <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
+              Nos produits
+            </h2>
+          </div>
+          <Link
+            href="/boutique"
+            className="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-wide text-primary hover:underline"
+          >
+            Voir tout <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="mt-6">
+        <div className="mt-8">
           <ProductGrid products={bestSellers} pricing={pricing} />
         </div>
       </section>
 
-      {/* Marques */}
+      {/* ===== MARQUES (bande sombre) ===== */}
       {brands.length > 0 && (
-        <section className="border-y border-neutral-200 bg-neutral-50">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-3 px-4 py-8">
-            {brands.map((b) => (
-              <span key={b.slug} className="text-lg font-bold uppercase tracking-wide text-neutral-400">
-                {b.name}
-              </span>
-            ))}
+        <section className="bg-neutral-950">
+          <div className="mx-auto max-w-6xl px-4 py-10">
+            <p className="text-center text-xs font-bold uppercase tracking-[0.3em] text-neutral-500">
+              Nos marques
+            </p>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
+              {brands.map((b) => (
+                <span
+                  key={b.slug}
+                  className="text-xl font-extrabold uppercase tracking-wide text-neutral-400"
+                >
+                  {b.name}
+                </span>
+              ))}
+            </div>
           </div>
         </section>
       )}
 
-      {/* Réassurance */}
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-          {REASSURANCE.map((r) => (
-            <div key={r.t} className="flex flex-col items-center text-center">
-              <r.icon className="h-8 w-8 text-primary" />
-              <p className="mt-2 font-semibold text-neutral-900">{r.t}</p>
-              <p className="text-sm text-neutral-500">{r.d}</p>
-            </div>
-          ))}
+      {/* ===== CTA EXPERT / ASSISTANT ===== */}
+      <section className="relative overflow-hidden bg-primary text-white">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_100%_0%,rgba(0,0,0,0.35),transparent_60%)]" />
+        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-16 text-center md:flex-row md:justify-between md:text-left">
+          <div>
+            <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
+              Besoin d’un conseil ?
+            </h2>
+            <p className="mt-2 max-w-xl text-white/85">
+              Notre assistant connaît tout le catalogue et les stocks. Ou passe en magasin parler à
+              Alexandre, expert en nutrition sportive.
+            </p>
+          </div>
+          <Link
+            href="/boutique"
+            className="inline-flex h-14 shrink-0 items-center justify-center rounded-md bg-white px-8 text-base font-bold uppercase tracking-wide text-neutral-950 transition hover:bg-neutral-100"
+          >
+            Commencer
+            <ArrowRight className="ml-1 h-5 w-5" />
+          </Link>
         </div>
       </section>
     </>

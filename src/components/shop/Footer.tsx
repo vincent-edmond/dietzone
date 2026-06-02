@@ -14,38 +14,47 @@ const LEGAL = [
 export async function Footer() {
   const s = await getSettings()
   return (
-    <footer className="mt-16 border-t border-neutral-200 bg-neutral-50">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-3">
+    <footer className="bg-neutral-950 text-neutral-300">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-3">
         <div>
-          <p className="text-lg font-extrabold tracking-tight">
+          <p className="text-2xl font-extrabold uppercase tracking-tight text-white">
             DIET<span className="text-primary">ZONE</span>
           </p>
-          <p className="mt-2 text-sm text-neutral-600">
-            Expert en nutrition sportive à La Réunion.
+          <p className="mt-3 text-sm text-neutral-400">
+            Expert en nutrition sportive à La Réunion. Les meilleures marques, en magasin et en
+            ligne.
           </p>
         </div>
 
-        <div className="text-sm text-neutral-600">
+        <div className="text-sm">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
+            Magasin
+          </p>
           <p className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 shrink-0" /> {s.storeAddress}
+            <MapPin className="h-4 w-4 shrink-0 text-primary" /> {s.storeAddress}
           </p>
           <p className="mt-2 flex items-center gap-2">
-            <Phone className="h-4 w-4 shrink-0" /> {s.storePhone}
+            <Phone className="h-4 w-4 shrink-0 text-primary" /> {s.storePhone}
           </p>
           <p className="mt-2 flex items-center gap-2">
-            <Clock className="h-4 w-4 shrink-0" /> {s.storeHours}
+            <Clock className="h-4 w-4 shrink-0 text-primary" /> {s.storeHours}
           </p>
         </div>
 
-        <nav className="grid grid-cols-2 gap-2 text-sm">
-          {LEGAL.map((l) => (
-            <Link key={l.href} href={l.href} className="text-neutral-600 hover:text-neutral-900">
-              {l.label}
-            </Link>
-          ))}
-        </nav>
+        <div>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">
+            Infos
+          </p>
+          <nav className="grid grid-cols-2 gap-2 text-sm">
+            {LEGAL.map((l) => (
+              <Link key={l.href} href={l.href} className="text-neutral-400 transition hover:text-white">
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
-      <div className="border-t border-neutral-200 py-4 text-center text-xs text-neutral-500">
+      <div className="border-t border-white/10 py-5 text-center text-xs text-neutral-500">
         © 2026 {s.storeName} — Tous droits réservés.
       </div>
     </footer>
