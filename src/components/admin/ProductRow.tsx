@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react'
 import Link from 'next/link'
-import { AlertTriangle, Check, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { AlertTriangle, Check, Loader2 } from 'lucide-react'
 import type { AdminProductRow } from '@/features/admin/products'
 import {
   toggleProductActive,
@@ -139,22 +139,34 @@ export function ProductRow({ product }: { product: AdminProductRow }) {
         </span>
       </td>
 
-      {/* Actif — toggle 1 clic */}
-      <td className="px-4 py-3 text-center">
-        <button
-          type="button"
-          onClick={toggleActive}
-          disabled={pending}
-          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold transition ${
-            isActive
-              ? 'bg-green-100 text-green-700 hover:bg-green-200'
-              : 'bg-neutral-200 text-neutral-600 hover:bg-neutral-300'
-          }`}
-          title={isActive ? 'Cliquer pour masquer' : 'Cliquer pour activer'}
-        >
-          {isActive ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
-          {isActive ? 'Actif' : 'Masqué'}
-        </button>
+      {/* Actif — interrupteur On/Off */}
+      <td className="px-4 py-3">
+        <div className="flex items-center justify-center gap-2">
+          <button
+            type="button"
+            role="switch"
+            aria-checked={isActive}
+            onClick={toggleActive}
+            disabled={pending}
+            title={isActive ? 'En ligne — cliquer pour masquer' : 'Masqué — cliquer pour activer'}
+            className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60 ${
+              isActive ? 'bg-green-500' : 'bg-neutral-300'
+            }`}
+          >
+            <span
+              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform ${
+                isActive ? 'translate-x-5' : 'translate-x-0.5'
+              }`}
+            />
+          </button>
+          <span
+            className={`w-12 text-xs font-semibold ${
+              isActive ? 'text-green-600' : 'text-neutral-400'
+            }`}
+          >
+            {isActive ? 'Actif' : 'Inactif'}
+          </span>
+        </div>
       </td>
 
       {/* Actions */}
