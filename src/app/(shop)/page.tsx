@@ -27,13 +27,14 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="border-b border-neutral-200 bg-gradient-to-b from-neutral-50 to-white">
         <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:py-24">
-          <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">
             Nutrition sportive · La Réunion
           </p>
-          <h1 className="mx-auto mt-3 max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Atteignez vos objectifs avec les meilleures marques
+          <h1 className="mx-auto mt-4 max-w-4xl text-5xl font-extrabold uppercase leading-[0.95] tracking-tight sm:text-7xl">
+            Atteignez vos objectifs avec les{' '}
+            <span className="text-primary">meilleures marques</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-neutral-600">
+          <p className="mx-auto mt-6 max-w-xl text-lg text-neutral-600">
             Protéines, créatine, pre-workout et plus — sélectionnés par Alexandre, votre expert à
             St-Denis. Livraison sur l’île ou retrait en magasin.
           </p>

@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Barlow_Condensed, Inter } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Police athlétique condensée pour les titres (reco ui-ux-pro-max : sport/fitness)
+const fontHeading = Barlow_Condensed({
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-heading",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Police de texte propre et lisible
+const fontSans = Inter({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export const metadata: Metadata = {
@@ -29,9 +32,11 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${fontHeading.variable} ${fontSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-neutral-900">{children}</body>
+      <body className="min-h-full flex flex-col bg-white font-sans text-neutral-900">
+        {children}
+      </body>
     </html>
   );
 }
