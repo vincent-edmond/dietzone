@@ -56,7 +56,7 @@ export function Header({ user = null }: { user?: NavUser }) {
           {isPro && (
             <Link
               href="/compte"
-              className="inline-flex items-center gap-1 rounded-full bg-navy px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:opacity-90"
+              className="hidden items-center gap-1 rounded-full bg-navy px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:opacity-90 sm:inline-flex"
               title={`Connecté en PRO (${user?.email})`}
             >
               <BadgeCheck className="h-3.5 w-3.5" /> PRO
@@ -65,7 +65,7 @@ export function Header({ user = null }: { user?: NavUser }) {
           {isAdmin && (
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1 rounded-full bg-neutral-900 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:opacity-90"
+              className="hidden items-center gap-1 rounded-full bg-neutral-900 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:opacity-90 sm:inline-flex"
               title="Espace administration"
             >
               <LayoutDashboard className="h-3.5 w-3.5" /> Admin
