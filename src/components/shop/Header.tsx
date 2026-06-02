@@ -21,8 +21,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="text-xl font-extrabold tracking-tight" aria-label="Accueil DietZone">
-          DIET<span className="text-primary">ZONE</span>
+        <Link href="/" aria-label="Accueil DietZone" className="flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-dietzone.png" alt="DietZone" className="h-9 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

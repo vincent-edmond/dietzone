@@ -16,9 +16,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="flex min-h-screen">
       <aside className="w-56 shrink-0 border-r border-neutral-200 bg-neutral-50 p-4">
-        <Link href="/" className="block text-lg font-extrabold tracking-tight">
-          DIET<span className="text-red-600">ZONE</span>
-          <span className="block text-xs font-normal text-neutral-500">Administration</span>
+        <Link href="/" className="block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-dietzone.png" alt="DietZone" className="h-10 w-auto" />
+          <span className="mt-1 block text-xs font-normal text-neutral-500">Administration</span>
         </Link>
         <nav className="mt-6 flex flex-col gap-1">
           {NAV.map((n) => (

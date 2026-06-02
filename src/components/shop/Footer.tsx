@@ -17,9 +17,8 @@ export async function Footer() {
     <footer className="bg-neutral-950 text-neutral-300">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-3">
         <div>
-          <p className="text-2xl font-extrabold uppercase tracking-tight text-white">
-            DIET<span className="text-primary">ZONE</span>
-          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-dietzone.png" alt="DietZone" className="h-16 w-auto" />
           <p className="mt-3 text-sm text-neutral-400">
             Expert en nutrition sportive à La Réunion. Les meilleures marques, en magasin et en
             ligne.
