@@ -1,0 +1,16 @@
+# Configuration de déploiement Netlify pour DietZone (Next.js 16)
+# Le runtime Next.js de Netlify (@netlify/plugin-nextjs) gère App Router,
+# Server Actions, middleware et SSR automatiquement.
+
+[build]
+  command = "npm run build"
+  # Le plugin Next.js définit le bon dossier de publication automatiquement.
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # Évite que les warnings d'audit npm fassent échouer le build.
+  NPM_FLAGS = "--no-audit --no-fund"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
