@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getProductBySlug } from '@/features/catalog/queries'
+import { getPricingContext } from '@/features/pro/context'
 import { VariantPicker } from '@/components/shop/VariantPicker'
 
 export async function generateMetadata({
@@ -20,7 +21,7 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const p = await getProductBySlug(slug)
+  const [p, pricing] = await Promise.all([getProductBySlug(slug), getPricingContext()])
   if (!p) notFound()
 
   return (
@@ -66,6 +67,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             productName={p.name}
             image={p.images[0]}
             variants={p.variants}
+            pricing={pricing}
           />
 
           {p.description && (

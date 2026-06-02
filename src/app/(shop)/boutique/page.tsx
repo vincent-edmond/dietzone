@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { listProducts, type CatalogSort } from '@/features/catalog/queries'
 import { listCategories, listBrands, listObjectives } from '@/features/catalog/taxonomy'
+import { getPricingContext } from '@/features/pro/context'
 import { ProductGrid } from '@/components/shop/ProductGrid'
 import { Filters } from '@/components/shop/Filters'
 
@@ -20,7 +21,7 @@ export default async function BoutiquePage({
     const v = sp[k]
     return Array.isArray(v) ? v[0] : v
   }
-  const [products, categories, brands, objectives] = await Promise.all([
+  const [products, categories, brands, objectives, pricing] = await Promise.all([
     listProducts({
       categorySlug: get('categorie'),
       brandSlug: get('marque'),
@@ -31,6 +32,7 @@ export default async function BoutiquePage({
     listCategories(),
     listBrands(),
     listObjectives(),
+    getPricingContext(),
   ])
 
   return (
