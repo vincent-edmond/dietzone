@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Truck, Store, ShieldCheck, Dumbbell, ArrowRight, MessageCircle } from 'lucide-react'
 import { OpenAssistantButton } from '@/components/assistant/OpenAssistantButton'
+import { Typewriter } from '@/components/shop/home/Typewriter'
 import { listProducts } from '@/features/catalog/queries'
 import { getPricingContext } from '@/features/pro/context'
 import { listBrands } from '@/features/catalog/taxonomy'
@@ -46,9 +47,10 @@ export default async function HomePage() {
           <h1 className="mx-auto mt-5 max-w-5xl text-5xl font-extrabold uppercase leading-[0.88] tracking-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)] sm:text-7xl lg:text-8xl">
             Dépasse tes limites.
             <br />
-            <span className="bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">
-              Performe.
-            </span>
+            <Typewriter
+              words={['Performe.', 'Progresse.', 'Récupère.', 'Domine.', 'Dépasse-toi.']}
+              wordClassName="bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent"
+            />
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-neutral-300">
             Protéines, créatine, pre-workout — les meilleures marques, sélectionnées par Alexandre,

@@ -161,6 +161,18 @@
   50% { transform: translateY(-10px); }
 }
 
+/* Curseur clignotant de l'effet machine à écrire */
+@keyframes dz-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.dz-caret {
+  animation: dz-blink 1s steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dz-caret { animation: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dz-marquee { animation: none; }
 }
