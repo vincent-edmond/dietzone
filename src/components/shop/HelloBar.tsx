@@ -21,7 +21,7 @@ export function HelloBar() {
   const Icon = m.icon
 
   return (
-    <div className="relative z-50 overflow-hidden bg-gradient-to-r from-primary via-red-600 to-red-700 text-white">
+    <div className="relative z-50 overflow-hidden bg-gradient-to-r from-navy via-primary to-navy text-white">
       <div className="mx-auto flex max-w-6xl items-center justify-center gap-3 px-4 py-2 text-center text-xs font-semibold sm:text-sm">
         <span key={i} className="flex animate-in items-center gap-2 fade-in slide-in-from-bottom-1 duration-500">
           <Icon className="h-4 w-4 shrink-0" />

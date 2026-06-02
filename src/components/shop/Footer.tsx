@@ -15,6 +15,7 @@ export async function Footer() {
   const s = await getSettings()
   return (
     <footer className="bg-neutral-950 text-neutral-300">
+      <div className="h-1 w-full bg-gradient-to-r from-primary via-royal to-primary" />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-3">
         <div>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -33,7 +34,7 @@ export async function Footer() {
             <MapPin className="h-4 w-4 shrink-0 text-primary" /> {s.storeAddress}
           </p>
           <p className="mt-2 flex items-center gap-2">
-            <Phone className="h-4 w-4 shrink-0 text-primary" /> {s.storePhone}
+            <Phone className="h-4 w-4 shrink-0 text-royal" /> {s.storePhone}
           </p>
           <p className="mt-2 flex items-center gap-2">
             <Clock className="h-4 w-4 shrink-0 text-primary" /> {s.storeHours}

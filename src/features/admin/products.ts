@@ -21,6 +21,8 @@ export async function setProductImage(productId: string, url: string | null): Pr
   revalidatePath(`/admin/produits/${productId}`)
   revalidatePath('/admin/produits')
   revalidatePath('/boutique')
+  revalidatePath('/produit/[slug]', 'page')
+  revalidatePath('/')
 }
 
 /** Action rapide : activer / masquer un produit en un clic. */
@@ -30,6 +32,8 @@ export async function toggleProductActive(id: string, isActive: boolean): Promis
   await sb.from('products').update({ is_active: isActive }).eq('id', id)
   revalidatePath('/admin/produits')
   revalidatePath('/boutique')
+  revalidatePath('/produit/[slug]', 'page')
+  revalidatePath('/')
 }
 
 /** Action rapide : modifier le taux de TVA d'un produit (en %). */
@@ -59,6 +63,8 @@ export async function setSingleVariantPrice(
   await sb.from('product_variants').update({ price_cents: priceCents }).eq('id', variants[0].id)
   revalidatePath('/admin/produits')
   revalidatePath('/boutique')
+  revalidatePath('/produit/[slug]', 'page')
+  revalidatePath('/')
   return {}
 }
 

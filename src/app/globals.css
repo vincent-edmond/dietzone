@@ -35,6 +35,9 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-navy: var(--navy);
+  --color-navy-foreground: var(--navy-foreground);
+  --color-royal: var(--royal);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -58,6 +61,10 @@
   /* DietZone : rouge énergie (CTA) — contraste AA avec texte blanc */
   --primary: oklch(0.55 0.22 27);
   --primary-foreground: oklch(0.985 0 0);
+  /* DietZone : bleu marine du logo (badges PRO, accents secondaires) + bleu royal vif */
+  --navy: #0a2540;
+  --navy-foreground: oklch(0.985 0 0);
+  --royal: #1763c7;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);

@@ -9,10 +9,10 @@ import { Reveal } from '@/components/ui/Reveal'
 import { demoImages } from '@/lib/demoImages'
 
 const REASSURANCE = [
-  { icon: Truck, t: 'Livraison île', d: 'Réunion 974' },
-  { icon: Store, t: 'Retrait magasin', d: 'St-Denis, gratuit' },
-  { icon: ShieldCheck, t: 'Paiement sécurisé', d: 'Carte bancaire' },
-  { icon: Dumbbell, t: 'Marques premium', d: 'Gaspari, C4, NPL…' },
+  { icon: Truck, t: 'Livraison île', d: 'Réunion 974', c: 'text-primary' },
+  { icon: Store, t: 'Retrait magasin', d: 'St-Denis, gratuit', c: 'text-royal' },
+  { icon: ShieldCheck, t: 'Paiement sécurisé', d: 'Carte bancaire', c: 'text-primary' },
+  { icon: Dumbbell, t: 'Marques premium', d: 'Gaspari, C4, NPL…', c: 'text-royal' },
 ]
 
 export default async function HomePage() {
@@ -34,7 +34,9 @@ export default async function HomePage() {
         />
         <div className="pointer-events-none absolute inset-0 bg-neutral-950/82" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_-10%,rgba(225,29,42,0.5),transparent_70%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_55%_at_92%_115%,rgba(23,99,199,0.42),transparent_70%)]" />
         <div className="pointer-events-none absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-royal/20 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl animate-in px-4 py-24 text-center fade-in slide-in-from-bottom-6 duration-1000 sm:py-32">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
@@ -72,7 +74,7 @@ export default async function HomePage() {
           <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-white/10 sm:grid-cols-4">
             {REASSURANCE.map((r) => (
               <div key={r.t} className="flex items-center justify-center gap-3 px-4 py-5">
-                <r.icon className="h-6 w-6 shrink-0 text-primary" />
+                <r.icon className={`h-6 w-6 shrink-0 ${r.c}`} />
                 <div className="text-left">
                   <p className="text-sm font-bold uppercase tracking-wide">{r.t}</p>
                   <p className="text-xs text-neutral-400">{r.d}</p>
@@ -87,7 +89,7 @@ export default async function HomePage() {
       <Reveal>
         <section className="mx-auto max-w-6xl px-4 py-16">
           <div className="flex items-end gap-3">
-            <span className="h-8 w-1.5 rounded bg-primary" />
+            <span className="h-8 w-1.5 rounded bg-gradient-to-b from-primary to-royal" />
             <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
               Achète par objectif
             </h2>
@@ -103,7 +105,7 @@ export default async function HomePage() {
         <section className="mx-auto max-w-6xl px-4 pb-16">
           <div className="flex items-end justify-between">
             <div className="flex items-end gap-3">
-              <span className="h-8 w-1.5 rounded bg-primary" />
+              <span className="h-8 w-1.5 rounded bg-gradient-to-b from-primary to-royal" />
               <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
                 Nos produits
               </h2>
@@ -144,13 +146,13 @@ export default async function HomePage() {
 
       {/* ===== CTA EXPERT ===== */}
       <Reveal>
-        <section className="relative overflow-hidden bg-primary text-white">
+        <section className="relative overflow-hidden bg-navy text-white">
           <div
             className="pointer-events-none absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(${demoImages.cta})` }}
           />
-          <div className="pointer-events-none absolute inset-0 bg-primary/85" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_100%_0%,rgba(0,0,0,0.45),transparent_60%)]" />
+          <div className="pointer-events-none absolute inset-0 bg-navy/85" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_0%_0%,rgba(225,29,42,0.4),transparent_55%)]" />
           <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-16 text-center md:flex-row md:justify-between md:text-left">
             <div>
               <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
