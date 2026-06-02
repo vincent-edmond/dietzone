@@ -93,7 +93,8 @@ PAS d'emoji) · **zustand** (panier) · déploiement **Netlify** (runtime Next.j
 ## 5. Base de données (Supabase Postgres)
 
 Tables : `profiles` (rôle customer|pro|admin, trigger `handle_new_user` à l'inscription) · `pro_applications`
-(pending|approved|rejected) · `categories` · `brands` · `objectives` · `products` · `product_variants`
+(pending|approved|rejected ; champs pro : company_name, contact_name, activity_type, siret, phone, website,
+message — **siret + phone obligatoires**, migration 0009) · `categories` · `brands` · `objectives` · `products` · `product_variants`
 (prix_cents, stock_qty) · `product_objectives` (n-n) · `orders` (statuts pending|paid|to_pay_pickup|preparing|
 ready|shipped|picked_up|cancelled, fulfillment delivery|pickup, payment_method card|pickup) · `order_items` ·
 `settings` (singleton : pro_discount_percent, free_shipping_threshold_cents=4499, shipping_fee_cents=500, infos
