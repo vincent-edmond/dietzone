@@ -14,6 +14,9 @@ describe('ProductCard', () => {
           image: null,
           fromPriceCents: 4900,
           inStock: true,
+          variantId: 'v1',
+          variantLabel: null,
+          stock: 5,
         }}
       />,
     )
@@ -33,6 +36,9 @@ describe('ProductCard', () => {
           image: null,
           fromPriceCents: 1000,
           inStock: false,
+          variantId: 'v2',
+          variantLabel: null,
+          stock: 0,
         }}
       />,
     )
@@ -50,6 +56,9 @@ describe('ProductCard', () => {
           image: null,
           fromPriceCents: 4900,
           inStock: true,
+          variantId: 'v1',
+          variantLabel: null,
+          stock: 5,
         }}
       />,
     )

@@ -33,15 +33,21 @@ function one<T>(v: T | T[] | null | undefined): T | null {
 
 export function toProductCard(row: ProductRow): ProductCard {
   const variants = (row.product_variants ?? []).filter((v) => v.is_active)
-  const prices = variants.map((v) => v.price_cents)
+  const cheapest = variants.reduce<VariantRow | null>(
+    (min, v) => (!min || v.price_cents < min.price_cents ? v : min),
+    null,
+  )
   return {
     id: row.id,
     name: row.name,
     slug: row.slug,
     brand: one(row.brands)?.name ?? null,
     image: row.images?.[0] ?? null,
-    fromPriceCents: prices.length ? Math.min(...prices) : 0,
+    fromPriceCents: cheapest ? cheapest.price_cents : 0,
     inStock: variants.some((v) => v.stock_qty > 0),
+    variantId: cheapest?.id ?? null,
+    variantLabel: cheapest?.label ?? null,
+    stock: cheapest?.stock_qty ?? 0,
   }
 }
 

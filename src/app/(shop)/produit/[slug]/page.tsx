@@ -12,6 +12,7 @@ import { ProductAccordion } from '@/components/shop/product/ProductAccordion'
 import { ReviewsSection } from '@/components/shop/product/ReviewsSection'
 import { RatingStars } from '@/components/shop/product/RatingStars'
 import { StickyBar } from '@/components/shop/product/StickyBar'
+import { BundleTogether, type BundleItem } from '@/components/shop/product/BundleTogether'
 import { ProductGrid } from '@/components/shop/ProductGrid'
 
 export async function generateMetadata({
@@ -42,6 +43,37 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     listProducts({ sort: 'newest' }),
   ])
   const related = allProducts.filter((x) => x.slug !== p.slug).slice(0, 4)
+
+  // « Fréquemment achetés ensemble » : ce produit + 2 compléments en stock
+  const mainVariant = p.variants[0]
+  const bundleItems: BundleItem[] = mainVariant
+    ? [
+        {
+          variantId: mainVariant.id,
+          productId: p.id,
+          name: p.name,
+          brand: p.brand,
+          image: p.images[0],
+          priceCents: mainVariant.priceCents,
+          stock: mainVariant.stock,
+          slug: p.slug,
+          isMain: true,
+        },
+        ...related
+          .filter((r) => r.variantId && r.inStock)
+          .slice(0, 2)
+          .map((r) => ({
+            variantId: r.variantId as string,
+            productId: r.id,
+            name: r.name,
+            brand: r.brand,
+            image: r.image,
+            priceCents: r.fromPriceCents,
+            stock: r.stock,
+            slug: r.slug,
+          })),
+      ]
+    : []
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -135,6 +167,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           <Benefits />
         </div>
       </div>
+
+      {/* Fréquemment achetés ensemble */}
+      {bundleItems.length >= 2 && (
+        <div className="max-w-4xl">
+          <BundleTogether items={bundleItems} pricing={pricing} />
+        </div>
+      )}
 
       {/* Détails */}
       <div className="mt-12 max-w-3xl">

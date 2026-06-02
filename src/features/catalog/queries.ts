@@ -10,6 +10,10 @@ export interface ProductCard {
   /** Prix mini en centimes parmi les variantes actives. */
   fromPriceCents: number
   inStock: boolean
+  /** Variante la moins chère (pour ajout panier rapide / bundles). */
+  variantId: string | null
+  variantLabel: string | null
+  stock: number
 }
 
 export interface ProductVariantView {
@@ -48,7 +52,7 @@ export async function listProducts(filters: CatalogFilters = {}): Promise<Produc
   let q = sb
     .from('products')
     .select(
-      `id, name, slug, images, created_at, ${brandJoin}, ${catJoin}, ${objJoin}, product_variants(price_cents, stock_qty, is_active)`,
+      `id, name, slug, images, created_at, ${brandJoin}, ${catJoin}, ${objJoin}, product_variants(id, label, price_cents, stock_qty, is_active)`,
     )
     .eq('is_active', true)
     .order('created_at', { ascending: false })
