@@ -1,11 +1,27 @@
 'use server'
 
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { requireUser } from './auth'
 
 export interface AuthState {
   error?: string
   message?: string
+}
+
+export async function updateProfile(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  const user = await requireUser()
+  const fullName = String(formData.get('full_name') ?? '').trim()
+  const phone = String(formData.get('phone') ?? '').trim()
+  const sb = await createClient()
+  const { error } = await sb
+    .from('profiles')
+    .update({ full_name: fullName || null, phone: phone || null })
+    .eq('id', user.id)
+  if (error) return { error: 'Impossible de mettre à jour le profil.' }
+  revalidatePath('/compte')
+  return { message: 'Profil mis à jour.' }
 }
 
 export async function signIn(_prev: AuthState, formData: FormData): Promise<AuthState> {
