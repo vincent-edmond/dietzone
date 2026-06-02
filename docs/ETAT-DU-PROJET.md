@@ -69,6 +69,12 @@ PAS d'emoji) · **zustand** (panier) · déploiement **Netlify** (runtime Next.j
 **Conventions clés** :
 - **Argent en CENTIMES (int)** partout. `price_cents`. Helpers `src/lib/money.ts` (`formatEuros`, `eurosToCents`, `applyProDiscount`). Prix affichés TTC (TVA Réunion 8,5 % incluse dans le prix saisi).
 - **Prix PRO** jamais stocké : dérivé via `settings.pro_discount_percent` (20 % par défaut) → `displayPriceCents` / `applyProDiscount`.
+  - **PricingContext** (`src/features/pro/pricing.ts`) : `{ isPro, proPercent, isPendingPro }`. `getPricingContext`
+    (context.ts) détecte une demande PRO **pending** (rôle customer + `pro_applications.status=pending`).
+  - **Affichage 3 prix** pour PRO/PRO-en-attente (`showsProOffer`) : public TTC, public HT, **PRO HT remisé**
+    (`computePriceSet(ttc, vat, ctx)`). Visible dans BuyBox + ProductCard.
+  - **PRO en attente** (`canAddToCart` = false) : voit l'offre PRO mais **panier bloqué** (BuyBox/StickyBar/
+    BundleTogether/CartView) jusqu'à validation admin. Bannière sur `/compte`.
 - Slugs minuscules sans accents. uuid. `created_at timestamptz default now()`.
 - Scripts : `npm run dev|build|test|typecheck|lint`. Toujours valider build+test+lint avant push.
 
