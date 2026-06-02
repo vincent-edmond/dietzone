@@ -11,7 +11,7 @@ interface Msg {
 const GREETING: Msg = {
   role: 'assistant',
   content:
-    "Bonjour ! Je suis l'assistant DietZone. Dites-moi votre objectif (prise de masse, sèche, énergie, santé) et je vous conseille un produit disponible en stock.",
+    "Salut ! 👋 Moi c'est ton conseiller DietZone. Dis-moi ton objectif (prise de masse, sèche, énergie…) et je te trouve ce qu'il te faut.",
 }
 
 export function AssistantLauncher() {
