@@ -6,6 +6,7 @@ import { listBrands } from '@/features/catalog/taxonomy'
 import { ProductGrid } from '@/components/shop/ProductGrid'
 import { ObjectiveTiles } from '@/components/shop/home/ObjectiveTiles'
 import { buttonVariants } from '@/components/ui/button'
+import { demoImages } from '@/lib/demoImages'
 
 const REASSURANCE = [
   { icon: Truck, t: 'Livraison île', d: 'Réunion 974' },
@@ -26,8 +27,15 @@ export default async function HomePage() {
     <>
       {/* ===== HERO — sombre & explosif ===== */}
       <section className="relative overflow-hidden bg-neutral-950 text-white">
+        {/* image de fond (démo) */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${demoImages.hero})` }}
+        />
+        {/* voile sombre pour la lisibilité */}
+        <div className="pointer-events-none absolute inset-0 bg-neutral-950/82" />
         {/* glow rouge */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_-10%,rgba(225,29,42,0.45),transparent_70%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_-10%,rgba(225,29,42,0.5),transparent_70%)]" />
         <div className="pointer-events-none absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
 
         <div className="relative mx-auto max-w-6xl px-4 py-24 text-center sm:py-32">
@@ -133,7 +141,12 @@ export default async function HomePage() {
 
       {/* ===== CTA EXPERT / ASSISTANT ===== */}
       <section className="relative overflow-hidden bg-primary text-white">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_100%_0%,rgba(0,0,0,0.35),transparent_60%)]" />
+        <div
+          className="pointer-events-none absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${demoImages.cta})` }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-primary/85" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_100%_0%,rgba(0,0,0,0.45),transparent_60%)]" />
         <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-16 text-center md:flex-row md:justify-between md:text-left">
           <div>
             <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">

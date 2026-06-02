@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { TrendingUp, Flame, Zap, HeartPulse, type LucideIcon } from 'lucide-react'
+import { demoImages } from '@/lib/demoImages'
 
 const OBJECTIVES: { slug: string; label: string; desc: string; icon: LucideIcon }[] = [
   { slug: 'prise-de-masse', label: 'Prise de masse', desc: 'Protéines, gainers, créatine', icon: TrendingUp },
@@ -15,16 +16,21 @@ export function ObjectiveTiles() {
         <Link
           key={o.slug}
           href={`/boutique?objectif=${o.slug}`}
-          className="group relative flex flex-col gap-4 overflow-hidden rounded-xl border-2 border-neutral-200 bg-white p-6 transition-all hover:-translate-y-1 hover:border-primary hover:shadow-xl"
+          className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-xl"
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-neutral-100 text-neutral-700 transition-colors group-hover:bg-primary group-hover:text-white">
-            <o.icon className="h-6 w-6" />
-          </span>
-          <div>
-            <span className="block text-lg font-extrabold uppercase tracking-tight text-neutral-900">
+          <div
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+            style={{ backgroundImage: `url(${demoImages.objectives[o.slug]})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent transition-colors group-hover:from-primary/90" />
+          <div className="relative p-5">
+            <span className="mb-2 flex h-9 w-9 items-center justify-center rounded-lg bg-white/15 text-white backdrop-blur">
+              <o.icon className="h-5 w-5" />
+            </span>
+            <span className="block text-lg font-extrabold uppercase tracking-tight text-white">
               {o.label}
             </span>
-            <span className="mt-1 block text-sm text-neutral-500">{o.desc}</span>
+            <span className="mt-0.5 block text-xs text-neutral-300">{o.desc}</span>
           </div>
         </Link>
       ))}
