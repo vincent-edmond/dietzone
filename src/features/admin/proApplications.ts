@@ -9,8 +9,11 @@ export interface ProApplicationRow {
   userId: string
   email: string
   companyName: string
+  contactName: string | null
+  activityType: string | null
   siret: string | null
   phone: string | null
+  website: string | null
   message: string | null
   createdAt: string
 }
@@ -20,7 +23,9 @@ export async function listPendingApplications(): Promise<ProApplicationRow[]> {
   const sb = await createClient()
   const { data: apps } = await sb
     .from('pro_applications')
-    .select('id, user_id, company_name, siret, phone, message, created_at')
+    .select(
+      'id, user_id, company_name, contact_name, activity_type, siret, phone, website, message, created_at',
+    )
     .eq('status', 'pending')
     .order('created_at')
   const rows = apps ?? []
@@ -34,8 +39,11 @@ export async function listPendingApplications(): Promise<ProApplicationRow[]> {
     userId: a.user_id,
     email: emailById[a.user_id] ?? '',
     companyName: a.company_name,
+    contactName: a.contact_name,
+    activityType: a.activity_type,
     siret: a.siret,
     phone: a.phone,
+    website: a.website,
     message: a.message,
     createdAt: a.created_at,
   }))

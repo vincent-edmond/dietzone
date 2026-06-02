@@ -39,7 +39,7 @@ export function StickyBar({
         visible ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
+      <div className="mx-auto flex max-w-6xl items-center gap-4 py-3 pl-4 pr-20 sm:px-4">
         <div className="flex min-w-0 flex-1 items-center gap-3">
           {image ? (
             // eslint-disable-next-line @next/next/no-img-element

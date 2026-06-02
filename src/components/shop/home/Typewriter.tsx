@@ -16,8 +16,6 @@ export function Typewriter({
 
   useEffect(() => {
     if (words.length < 2) return
-    // Respecte « réduire les animations » : on laisse le 1er mot figé.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const current = words[index % words.length]
 
     let delay = deleting ? 45 : 95

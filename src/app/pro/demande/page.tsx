@@ -9,7 +9,7 @@ export default async function ProDemandePage() {
   const user = await getCurrentUser()
 
   return (
-    <main className="mx-auto max-w-md px-4 py-12">
+    <main className="mx-auto max-w-2xl px-4 py-12">
       <h1 className="text-2xl font-bold tracking-tight">Demande d’accès PRO</h1>
 
       {!user ? (
@@ -36,7 +36,7 @@ export default async function ProDemandePage() {
             Remplissez ce formulaire ; Alexandre validera votre accès.
           </p>
           <div className="mt-6">
-            <ProApplicationForm />
+            <ProApplicationForm defaultContactName={user.fullName ?? ''} />
           </div>
         </>
       )}

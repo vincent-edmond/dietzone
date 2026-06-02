@@ -25,9 +25,39 @@ export default async function DemandesProPage() {
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="text-sm">
                   <p className="text-base font-semibold">{a.companyName}</p>
-                  <p className="text-neutral-600">{a.email}</p>
-                  {a.siret && <p className="text-neutral-500">SIRET : {a.siret}</p>}
-                  {a.phone && <p className="text-neutral-500">Tél : {a.phone}</p>}
+                  {a.activityType && (
+                    <span className="mt-1 inline-block rounded-full bg-navy/10 px-2 py-0.5 text-xs font-semibold text-navy">
+                      {a.activityType}
+                    </span>
+                  )}
+                  <dl className="mt-2 grid gap-x-6 gap-y-1 text-neutral-600 sm:grid-cols-2">
+                    {a.contactName && (
+                      <p>
+                        <span className="text-neutral-400">Contact :</span> {a.contactName}
+                      </p>
+                    )}
+                    <p>
+                      <span className="text-neutral-400">Email :</span> {a.email}
+                    </p>
+                    {a.phone && (
+                      <p>
+                        <span className="text-neutral-400">Tél :</span>{' '}
+                        <a href={`tel:${a.phone}`} className="text-primary hover:underline">
+                          {a.phone}
+                        </a>
+                      </p>
+                    )}
+                    {a.siret && (
+                      <p>
+                        <span className="text-neutral-400">SIRET :</span> {a.siret}
+                      </p>
+                    )}
+                    {a.website && (
+                      <p className="sm:col-span-2">
+                        <span className="text-neutral-400">Web :</span> {a.website}
+                      </p>
+                    )}
+                  </dl>
                   {a.message && <p className="mt-2 text-neutral-700">{a.message}</p>}
                 </div>
                 <div className="flex gap-2">

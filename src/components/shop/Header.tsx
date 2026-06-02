@@ -33,10 +33,10 @@ export function Header({ user = null }: { user?: NavUser }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-1.5 sm:py-2.5">
         <Link href="/" aria-label="Accueil DietZone" className="flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-dietzone.png" alt="DietZone" className="h-12 w-auto" />
+          <img src="/logo-dietzone.png" alt="DietZone" className="h-10 w-auto sm:h-12" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

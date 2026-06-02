@@ -98,6 +98,24 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       : {}),
   }
 
+  const productHeader = (
+    <>
+      {p.brand && (
+        <span className="text-sm font-bold uppercase tracking-wider text-neutral-400">
+          {p.brand}
+        </span>
+      )}
+      <h1 className="text-3xl font-extrabold uppercase leading-none tracking-tight sm:text-4xl">
+        {p.name}
+      </h1>
+      {rating.count > 0 && (
+        <a href="#avis" className="w-fit">
+          <RatingStars value={rating.avg} count={rating.count} />
+        </a>
+      )}
+    </>
+  )
+
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
       <script
@@ -112,13 +130,16 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <span> / {p.name}</span>
       </nav>
 
-      <div className="grid gap-10 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
+        {/* En-tête mobile : marque + titre + note, avant l'image */}
+        <div className="flex flex-col gap-3 md:hidden">{productHeader}</div>
+
         {/* Galerie */}
         <div className="md:sticky md:top-24 md:self-start">
-          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-neutral-200 bg-gradient-to-br from-neutral-100 to-neutral-200">
+          <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-neutral-200 bg-gradient-to-br from-neutral-100 to-neutral-200 sm:aspect-square">
             {p.images[0] ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={p.images[0]} alt={p.name} className="h-full w-full object-contain p-8" />
+              <img src={p.images[0]} alt={p.name} className="h-full w-full object-contain p-6 sm:p-8" />
             ) : (
               <span className="font-heading text-8xl font-extrabold text-neutral-300">
                 {p.name.charAt(0)}
@@ -129,18 +150,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
         {/* Buy box */}
         <div className="flex flex-col gap-5">
-          {p.brand && (
-            <span className="text-sm font-bold uppercase tracking-wider text-neutral-400">
-              {p.brand}
-            </span>
-          )}
-          <h1 className="text-4xl font-extrabold uppercase leading-none tracking-tight">{p.name}</h1>
-
-          {rating.count > 0 && (
-            <a href="#avis" className="w-fit">
-              <RatingStars value={rating.avg} count={rating.count} />
-            </a>
-          )}
+          {/* En-tête desktop : marque + titre + note dans la colonne droite */}
+          <div className="hidden flex-col gap-5 md:flex">{productHeader}</div>
 
           {p.objectives.length > 0 && (
             <div className="flex flex-wrap gap-2">

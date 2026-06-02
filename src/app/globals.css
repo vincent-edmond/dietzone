@@ -155,6 +155,7 @@
 .dz-marquee-group:hover .dz-marquee {
   animation-play-state: paused;
 }
+/* Marquee marques : volontairement actif même en reduce-motion (animation de marque). */
 
 @keyframes dz-float {
   0%, 100% { transform: translateY(0); }
@@ -169,10 +170,4 @@
 .dz-caret {
   animation: dz-blink 1s steps(1) infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .dz-caret { animation: none; }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .dz-marquee { animation: none; }
-}
