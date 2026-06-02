@@ -2,7 +2,15 @@
 
 > **À LIRE EN PREMIER au début de chaque session.** Ce document est la source de vérité du
 > projet : il survit à toute compaction de contexte. Tenir à jour après chaque avancée majeure.
-> Dernière mise à jour : 2026-06-02 (ajouts : upload image admin, refresh UI admin, redirection admin au login).
+> Dernière mise à jour : 2026-06-02 (ajouts : upload image admin, refresh UI admin, redirection admin au login,
+> actions rapides produits + TVA).
+>
+> **TVA** : colonne `products.vat_rate` (numeric %, défaut **8,5 %** = taux normal Réunion ; aussi 2,1 % et 0 %).
+> Les prix variantes restent stockés **TTC** en centimes. HT/TVA dérivés à l'affichage via
+> `htCentsFromTtc` / `vatCentsFromTtc` (src/lib/money.ts). Migration `0008_product_vat.sql`.
+> **Actions rapides admin** (`/admin/produits`, composant `ProductRow.tsx`) : toggle actif 1 clic, prix TTC
+> éditable inline (mono-variante uniquement ; multi-variante → éditer la fiche), select taux TVA, colonnes
+> HT / TVA / TTC recalculées en direct. Actions serveur dans `features/admin/products.ts`.
 
 ---
 
