@@ -66,7 +66,7 @@ export function BundleTogether({
   }
 
   return (
-    <section className="mt-12 rounded-2xl border border-neutral-200 bg-neutral-50/60 p-5 sm:p-6">
+    <section className="rounded-2xl border border-neutral-200 bg-neutral-50/60 p-5 sm:p-6">
       <div className="flex items-center gap-3">
         <span className="h-7 w-1.5 rounded bg-gradient-to-b from-primary to-royal" />
         <h2 className="text-2xl font-extrabold uppercase tracking-tight">

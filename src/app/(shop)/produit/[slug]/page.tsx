@@ -165,15 +165,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           />
 
           <Benefits />
+
+          {/* Fréquemment achetés ensemble — sous la zone d'achat, colonne de droite */}
+          {bundleItems.length >= 2 && (
+            <BundleTogether items={bundleItems} pricing={pricing} />
+          )}
         </div>
       </div>
-
-      {/* Fréquemment achetés ensemble */}
-      {bundleItems.length >= 2 && (
-        <div className="max-w-4xl">
-          <BundleTogether items={bundleItems} pricing={pricing} />
-        </div>
-      )}
 
       {/* Détails */}
       <div className="mt-12 max-w-3xl">
