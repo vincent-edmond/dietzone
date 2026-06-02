@@ -31,3 +31,6 @@ npm-debug.log*
 
 # Claude local settings (machine-specific)
 .claude/settings.local.json
+
+# Photos sources (originaux lourds, non versionnés)
+/Produits/
