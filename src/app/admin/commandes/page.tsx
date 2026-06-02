@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { listOrders } from '@/features/admin/orders'
-import { ORDER_STATUS_LABELS } from '@/features/account/orders'
+import { OrderStatusBadge } from '@/components/admin/OrderStatusBadge'
 import { formatEuros } from '@/lib/money'
 
 export const metadata: Metadata = { title: 'Commandes' }
@@ -11,38 +11,45 @@ export default async function AdminCommandesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold tracking-tight">Commandes</h1>
+      <h1 className="text-2xl font-extrabold uppercase tracking-tight">Commandes</h1>
+      <p className="text-sm text-neutral-500">{orders.length} commande(s)</p>
 
-      {orders.length === 0 ? (
-        <p className="mt-6 text-sm text-neutral-500">Aucune commande pour l’instant.</p>
-      ) : (
-        <table className="mt-6 w-full text-sm">
-          <thead>
-            <tr className="border-b border-neutral-200 text-left text-neutral-500">
-              <th className="py-2">Date</th>
-              <th className="py-2">Client</th>
-              <th className="py-2">Mode</th>
-              <th className="py-2">Statut</th>
-              <th className="py-2 text-right">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((o) => (
-              <tr key={o.id} className="border-b border-neutral-100 hover:bg-neutral-50">
-                <td className="py-2">
-                  <Link href={`/admin/commandes/${o.id}`} className="text-red-600 hover:underline">
-                    {new Date(o.createdAt).toLocaleDateString('fr-FR')}
-                  </Link>
-                </td>
-                <td className="py-2">{o.email}</td>
-                <td className="py-2">{o.fulfillment === 'pickup' ? 'Retrait' : 'Livraison'}</td>
-                <td className="py-2">{ORDER_STATUS_LABELS[o.status]}</td>
-                <td className="py-2 text-right font-semibold">{formatEuros(o.totalCents)}</td>
+      <div className="mt-6 overflow-hidden rounded-xl border border-neutral-200 bg-white">
+        {orders.length === 0 ? (
+          <p className="px-4 py-8 text-center text-sm text-neutral-500">
+            Aucune commande pour l’instant.
+          </p>
+        ) : (
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-neutral-200 bg-neutral-50 text-left text-xs font-bold uppercase tracking-wide text-neutral-500">
+                <th className="px-4 py-3">Date</th>
+                <th className="px-4 py-3">Client</th>
+                <th className="px-4 py-3">Mode</th>
+                <th className="px-4 py-3">Statut</th>
+                <th className="px-4 py-3 text-right">Total</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {orders.map((o) => (
+                <tr key={o.id} className="border-b border-neutral-100 last:border-0 hover:bg-neutral-50">
+                  <td className="px-4 py-3">
+                    <Link href={`/admin/commandes/${o.id}`} className="font-medium text-primary hover:underline">
+                      {new Date(o.createdAt).toLocaleDateString('fr-FR')}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3">{o.email}</td>
+                  <td className="px-4 py-3">{o.fulfillment === 'pickup' ? 'Retrait' : 'Livraison'}</td>
+                  <td className="px-4 py-3">
+                    <OrderStatusBadge status={o.status} />
+                  </td>
+                  <td className="px-4 py-3 text-right font-semibold">{formatEuros(o.totalCents)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   )
 }

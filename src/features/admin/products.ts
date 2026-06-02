@@ -10,6 +10,19 @@ export interface ProductFormState {
   error?: string
 }
 
+/** Définit (ou retire) l'image principale d'un produit. */
+export async function setProductImage(productId: string, url: string | null): Promise<void> {
+  await requireRole('admin')
+  const sb = await createClient()
+  await sb
+    .from('products')
+    .update({ images: url ? [url] : [] })
+    .eq('id', productId)
+  revalidatePath(`/admin/produits/${productId}`)
+  revalidatePath('/admin/produits')
+  revalidatePath('/boutique')
+}
+
 function embedName(v: unknown): string | null {
   if (Array.isArray(v)) return (v[0] as { name?: string } | undefined)?.name ?? null
   return (v as { name?: string } | null)?.name ?? null
@@ -19,6 +32,7 @@ export interface AdminProductRow {
   id: string
   name: string
   slug: string
+  image: string | null
   brand: string | null
   category: string | null
   isActive: boolean
@@ -32,7 +46,7 @@ export async function listAdminProducts(): Promise<AdminProductRow[]> {
   const sb = await createClient()
   const { data } = await sb
     .from('products')
-    .select('id, name, slug, is_active, brands(name), categories(name), product_variants(price_cents, stock_qty)')
+    .select('id, name, slug, is_active, images, brands(name), categories(name), product_variants(price_cents, stock_qty)')
     .order('created_at', { ascending: false })
   return (data ?? []).map((p) => {
     const variants = (p.product_variants ?? []) as { price_cents: number; stock_qty: number }[]
@@ -40,6 +54,7 @@ export async function listAdminProducts(): Promise<AdminProductRow[]> {
       id: p.id,
       name: p.name,
       slug: p.slug,
+      image: (p.images as string[] | null)?.[0] ?? null,
       brand: embedName(p.brands),
       category: embedName(p.categories),
       isActive: p.is_active,
@@ -66,6 +81,7 @@ export interface AdminProductDetail {
   brandId: string | null
   categoryId: string | null
   isActive: boolean
+  image: string | null
   objectiveIds: string[]
   variants: AdminVariant[]
 }
@@ -76,7 +92,7 @@ export async function getAdminProduct(id: string): Promise<AdminProductDetail | 
   const { data } = await sb
     .from('products')
     .select(
-      'id, name, slug, description, brand_id, category_id, is_active, product_objectives(objective_id), product_variants(id, label, sku, price_cents, stock_qty)',
+      'id, name, slug, description, brand_id, category_id, is_active, images, product_objectives(objective_id), product_variants(id, label, sku, price_cents, stock_qty)',
     )
     .eq('id', id)
     .maybeSingle()
@@ -89,6 +105,7 @@ export async function getAdminProduct(id: string): Promise<AdminProductDetail | 
     brandId: data.brand_id,
     categoryId: data.category_id,
     isActive: data.is_active,
+    image: (data.images as string[] | null)?.[0] ?? null,
     objectiveIds: ((data.product_objectives ?? []) as { objective_id: string }[]).map(
       (o) => o.objective_id,
     ),
