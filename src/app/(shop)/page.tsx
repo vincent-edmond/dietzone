@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Truck, Store, ShieldCheck, Dumbbell, ArrowRight } from 'lucide-react'
+import { Truck, Store, ShieldCheck, Dumbbell, ArrowRight, MessageCircle } from 'lucide-react'
+import { OpenAssistantButton } from '@/components/assistant/OpenAssistantButton'
 import { listProducts } from '@/features/catalog/queries'
 import { getPricingContext } from '@/features/pro/context'
 import { listBrands } from '@/features/catalog/taxonomy'
@@ -9,10 +10,10 @@ import { Reveal } from '@/components/ui/Reveal'
 import { demoImages } from '@/lib/demoImages'
 
 const REASSURANCE = [
-  { icon: Truck, t: 'Livraison île', d: 'Réunion 974', c: 'text-primary' },
-  { icon: Store, t: 'Retrait magasin', d: 'St-Denis, gratuit', c: 'text-royal' },
-  { icon: ShieldCheck, t: 'Paiement sécurisé', d: 'Carte bancaire', c: 'text-primary' },
-  { icon: Dumbbell, t: 'Marques premium', d: 'Gaspari, C4, NPL…', c: 'text-royal' },
+  { icon: Truck, t: 'Livraison île', d: 'Réunion 974' },
+  { icon: Store, t: 'Retrait magasin', d: 'St-Denis, gratuit' },
+  { icon: ShieldCheck, t: 'Paiement sécurisé', d: 'Carte bancaire' },
+  { icon: Dumbbell, t: 'Marques premium', d: 'Gaspari, C4, NPL…' },
 ]
 
 export default async function HomePage() {
@@ -73,8 +74,10 @@ export default async function HomePage() {
         <div className="relative border-t border-white/10">
           <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-white/10 sm:grid-cols-4">
             {REASSURANCE.map((r) => (
-              <div key={r.t} className="flex items-center justify-center gap-3 px-4 py-5">
-                <r.icon className={`h-6 w-6 shrink-0 ${r.c}`} />
+              <div key={r.t} className="flex items-center justify-center gap-3 px-4 py-6">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
+                  <r.icon className="h-5 w-5 text-white" strokeWidth={2} />
+                </span>
                 <div className="text-left">
                   <p className="text-sm font-bold uppercase tracking-wide">{r.t}</p>
                   <p className="text-xs text-neutral-400">{r.d}</p>
@@ -163,13 +166,10 @@ export default async function HomePage() {
                 Alexandre, expert en nutrition sportive.
               </p>
             </div>
-            <Link
-              href="/boutique"
-              className="inline-flex h-14 shrink-0 items-center justify-center gap-1 rounded-md bg-white px-8 text-base font-bold uppercase tracking-wide text-neutral-950 shadow-lg transition-transform hover:scale-[1.04]"
-            >
-              Commencer
-              <ArrowRight className="h-5 w-5" />
-            </Link>
+            <OpenAssistantButton className="inline-flex h-14 shrink-0 items-center justify-center gap-2 rounded-md bg-white px-8 text-base font-bold uppercase tracking-wide text-neutral-950 shadow-lg transition-transform hover:scale-[1.04]">
+              <MessageCircle className="h-5 w-5" />
+              Discuter avec l’assistant
+            </OpenAssistantButton>
           </div>
         </section>
       </Reveal>

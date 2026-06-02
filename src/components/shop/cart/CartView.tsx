@@ -285,13 +285,13 @@ export function CartView({
                 <CreditCard className="h-4 w-4 text-primary" /> Paiement 100% sécurisé
               </li>
               <li className="flex items-center gap-2">
-                <Store className="h-4 w-4 text-royal" /> Retrait gratuit à St-Denis
+                <Store className="h-4 w-4 text-primary" /> Retrait gratuit à St-Denis
               </li>
               <li className="flex items-center gap-2">
                 <Truck className="h-4 w-4 text-primary" /> Livraison sur toute l’île
               </li>
               <li className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-royal" /> Produits 100% authentiques
+                <ShieldCheck className="h-4 w-4 text-primary" /> Produits 100% authentiques
               </li>
             </ul>
           </div>

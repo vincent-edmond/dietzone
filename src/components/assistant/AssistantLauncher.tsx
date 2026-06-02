@@ -25,6 +25,13 @@ export function AssistantLauncher() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight })
   }, [messages, open])
 
+  // Ouverture depuis d'autres endroits du site (ex. CTA « Besoin d'un conseil ? »).
+  useEffect(() => {
+    const openHandler = () => setOpen(true)
+    window.addEventListener('dz:assistant-open', openHandler)
+    return () => window.removeEventListener('dz:assistant-open', openHandler)
+  }, [])
+
   async function send(e: React.FormEvent) {
     e.preventDefault()
     const text = input.trim()
