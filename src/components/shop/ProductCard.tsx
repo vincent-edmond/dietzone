@@ -21,7 +21,7 @@ export function ProductCard({
       <div className="relative flex aspect-square items-center justify-center bg-gradient-to-br from-neutral-100 to-neutral-200">
         {p.image ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={p.image} alt={p.name} className="h-full w-full object-contain p-4" />
+          <img src={p.image} alt={p.name} className="h-full w-full object-cover" />
         ) : (
           <span className="font-heading text-6xl font-extrabold text-neutral-300">
             {p.name.charAt(0)}
