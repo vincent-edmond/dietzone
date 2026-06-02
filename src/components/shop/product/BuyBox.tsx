@@ -10,6 +10,7 @@ import {
   computePriceSet,
   showsProOffer,
   canAddToCart,
+  minQty,
   PUBLIC_PRICING,
   type PricingContext,
 } from '@/features/pro/pricing'
@@ -32,8 +33,9 @@ export function BuyBox({
   freeShipThresholdCents: number
 }) {
   const add = useCart((s) => s.add)
+  const min = minQty(pricing)
   const [selectedId, setSelectedId] = useState(variants[0]?.id)
-  const [qty, setQty] = useState(1)
+  const [qty, setQty] = useState(min)
   const [added, setAdded] = useState(false)
   const selected = variants.find((v) => v.id === selectedId) ?? variants[0]
 
@@ -155,12 +157,17 @@ export function BuyBox({
         </div>
       ) : (
         <>
+          {min > 1 && (
+            <p className="rounded-md bg-navy/5 px-3 py-2 text-xs font-semibold text-navy">
+              Commande PRO : minimum {min} unités par produit.
+            </p>
+          )}
           {/* Quantité + Ajouter */}
           <div className="flex items-stretch gap-3">
             <div className="flex items-center rounded-md border-2 border-neutral-200">
               <button
                 type="button"
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
+                onClick={() => setQty((q) => Math.max(min, q - 1))}
                 className="flex h-12 w-11 items-center justify-center text-neutral-600 hover:bg-neutral-100"
                 aria-label="Diminuer"
               >

@@ -8,6 +8,8 @@ export interface PricingContext {
   isPendingPro?: boolean
   /** PRO suspendu par l'admin : voit l'offre PRO mais commande désactivée. */
   proSuspended?: boolean
+  /** Quantité minimale à commander par produit (10 par défaut pour un PRO actif, sinon 1). */
+  minQtyPerItem?: number
 }
 
 export const PUBLIC_PRICING: PricingContext = {
@@ -15,6 +17,12 @@ export const PUBLIC_PRICING: PricingContext = {
   proPercent: 0,
   isPendingPro: false,
   proSuspended: false,
+  minQtyPerItem: 1,
+}
+
+/** Quantité minimale de commande applicable (>= 1). */
+export function minQty(ctx: PricingContext): number {
+  return Math.max(1, ctx.minQtyPerItem ?? 1)
 }
 
 /** Prix à afficher selon le contexte : public, ou remisé pour un client PRO. */

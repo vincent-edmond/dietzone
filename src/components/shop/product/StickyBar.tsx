@@ -8,6 +8,7 @@ import { useCart } from '@/features/cart/store'
 import {
   displayPriceCents,
   canAddToCart,
+  minQty,
   PUBLIC_PRICING,
   type PricingContext,
 } from '@/features/pro/pricing'
@@ -67,7 +68,7 @@ export function StickyBar({
               productId,
               name: `${productName} · ${v.label}`,
               unitPriceCents: v.priceCents,
-              qty: 1,
+              qty: minQty(pricing),
               image: image ?? undefined,
               maxStock: v.stock,
             })

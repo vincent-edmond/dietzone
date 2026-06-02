@@ -21,6 +21,7 @@ import { formatEuros } from '@/lib/money'
 import {
   displayPriceCents,
   canAddToCart,
+  minQty,
   PUBLIC_PRICING,
   type PricingContext,
 } from '@/features/pro/pricing'
@@ -82,6 +83,7 @@ export function CartView({
     : 100
 
   const purchasable = canAddToCart(pricing)
+  const min = minQty(pricing)
   const inCart = new Set(lines.map((l) => l.productId))
   const reco = suggestions
     .filter((s) => s.variantId && s.inStock && !inCart.has(s.id))
@@ -119,6 +121,12 @@ export function CartView({
         </div>
       </div>
 
+      {min > 1 && (
+        <p className="mt-3 rounded-lg bg-navy/5 px-3 py-2 text-sm font-semibold text-navy">
+          Commande PRO : minimum {min} unités par produit.
+        </p>
+      )}
+
       <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_360px]">
         {/* Lignes */}
         <div>
@@ -147,8 +155,9 @@ export function CartView({
                       <div className="flex items-center rounded-md border border-neutral-200">
                         <button
                           type="button"
-                          onClick={() => setQty(l.variantId, l.qty - 1)}
-                          className="flex h-8 w-8 items-center justify-center text-neutral-600 hover:bg-neutral-100"
+                          onClick={() => setQty(l.variantId, Math.max(min, l.qty - 1))}
+                          disabled={l.qty <= min}
+                          className="flex h-8 w-8 items-center justify-center text-neutral-600 hover:bg-neutral-100 disabled:opacity-40"
                           aria-label="Diminuer"
                         >
                           <Minus className="h-3.5 w-3.5" />
@@ -230,7 +239,7 @@ export function CartView({
                             productId: s.id,
                             name: s.variantLabel ? `${s.name} · ${s.variantLabel}` : s.name,
                             unitPriceCents: s.fromPriceCents,
-                            qty: 1,
+                            qty: min,
                             image: s.image ?? undefined,
                             maxStock: s.stock,
                           })

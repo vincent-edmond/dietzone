@@ -9,6 +9,7 @@ import { useCart } from '@/features/cart/store'
 import {
   displayPriceCents,
   canAddToCart,
+  minQty,
   PUBLIC_PRICING,
   type PricingContext,
 } from '@/features/pro/pricing'
@@ -39,6 +40,7 @@ export function BundleTogether({
   )
   const [done, setDone] = useState(false)
   const purchasable = canAddToCart(pricing)
+  const min = minQty(pricing)
 
   if (buyable.length < 2) return null
 
@@ -53,7 +55,7 @@ export function BundleTogether({
   }
 
   const chosen = buyable.filter((it) => selected.has(it.variantId))
-  const totalCents = chosen.reduce((s, it) => s + displayPriceCents(it.priceCents, pricing), 0)
+  const totalCents = chosen.reduce((s, it) => s + displayPriceCents(it.priceCents, pricing) * min, 0)
 
   function addAll() {
     chosen.forEach((it) => {
@@ -62,7 +64,7 @@ export function BundleTogether({
         productId: it.productId,
         name: it.name,
         unitPriceCents: it.priceCents,
-        qty: 1,
+        qty: min,
         image: it.image ?? undefined,
         maxStock: it.stock,
       })
@@ -111,6 +113,7 @@ export function BundleTogether({
         <div className="ml-auto text-right sm:ml-2">
           <p className="text-xs uppercase tracking-wide text-neutral-500">Total sélection</p>
           <p className="text-2xl font-extrabold text-neutral-900">{formatEuros(totalCents)}</p>
+          {min > 1 && <p className="text-[10px] text-neutral-400">× {min} / produit (min PRO)</p>}
         </div>
       </div>
 

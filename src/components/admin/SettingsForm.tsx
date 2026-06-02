@@ -41,6 +41,12 @@ export function SettingsForm({ settings }: { settings: StoreSettings }) {
         defaultValue={settings.proDiscountPercent}
       />
       <Field
+        label="Quantité minimale PRO par produit (commande)"
+        name="pro_min_qty_per_item"
+        type="number"
+        defaultValue={settings.proMinQtyPerItem}
+      />
+      <Field
         label="Seuil port offert (€)"
         name="free_shipping_threshold"
         type="number"

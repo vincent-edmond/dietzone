@@ -16,6 +16,7 @@ export async function updateSettings(
 ): Promise<SettingsState> {
   await requireRole('admin')
   const proPct = Math.max(0, Math.min(90, Math.round(Number(formData.get('pro_discount_percent') ?? 0))))
+  const proMinQty = Math.max(1, Math.min(1000, Math.round(Number(formData.get('pro_min_qty_per_item') ?? 1))))
   const freeShip = eurosToCents(Number(formData.get('free_shipping_threshold') ?? 0))
   const shipFee = eurosToCents(Number(formData.get('shipping_fee') ?? 0))
 
@@ -24,6 +25,7 @@ export async function updateSettings(
     .from('settings')
     .update({
       pro_discount_percent: proPct,
+      pro_min_qty_per_item: proMinQty,
       free_shipping_threshold_cents: freeShip,
       shipping_fee_cents: shipFee,
       store_name: String(formData.get('store_name') ?? '').trim(),

@@ -25,5 +25,11 @@ export async function getPricingContext(): Promise<PricingContext> {
       .maybeSingle()
     isPendingPro = Boolean(data)
   }
-  return { isPro, proPercent: settings.proDiscountPercent, isPendingPro, proSuspended }
+  return {
+    isPro,
+    proPercent: settings.proDiscountPercent,
+    isPendingPro,
+    proSuspended,
+    minQtyPerItem: isPro ? settings.proMinQtyPerItem : 1,
+  }
 }
