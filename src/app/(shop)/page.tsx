@@ -168,8 +168,10 @@ export default async function HomePage() {
                 Alexandre, expert en nutrition sportive.
               </p>
             </div>
-            <OpenAssistantButton className="inline-flex h-14 shrink-0 items-center justify-center gap-2 rounded-md bg-white px-8 text-base font-bold uppercase tracking-wide text-neutral-950 shadow-lg transition-transform hover:scale-[1.04]">
-              <MessageCircle className="h-5 w-5" />
+            <OpenAssistantButton className="group inline-flex h-14 shrink-0 items-center gap-3 rounded-full bg-white py-2 pl-2 pr-7 text-base font-bold uppercase tracking-wide text-navy shadow-xl ring-1 ring-white/40 transition hover:scale-[1.03] hover:shadow-2xl">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-red-600 text-white shadow-md transition-transform group-hover:rotate-6">
+                <MessageCircle className="h-5 w-5" />
+              </span>
               Discuter avec l’assistant
             </OpenAssistantButton>
           </div>
