@@ -17,7 +17,7 @@ const fontSans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "DietZone — Nutrition sportive à La Réunion",
+    default: "DietZone · Nutrition sportive à La Réunion",
     template: "%s | DietZone",
   },
   description:

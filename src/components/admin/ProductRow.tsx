@@ -148,7 +148,7 @@ export function ProductRow({ product }: { product: AdminProductRow }) {
             aria-checked={isActive}
             onClick={toggleActive}
             disabled={pending}
-            title={isActive ? 'En ligne — cliquer pour masquer' : 'Masqué — cliquer pour activer'}
+            title={isActive ? 'En ligne, cliquer pour masquer' : 'Masqué, cliquer pour activer'}
             className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60 ${
               isActive ? 'bg-green-500' : 'bg-neutral-300'
             }`}

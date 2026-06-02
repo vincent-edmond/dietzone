@@ -59,7 +59,7 @@ export function StickyBar({
             add({
               variantId: v.id,
               productId,
-              name: `${productName} — ${v.label}`,
+              name: `${productName} · ${v.label}`,
               unitPriceCents: v.priceCents,
               qty: 1,
               image: image ?? undefined,

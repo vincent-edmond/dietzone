@@ -222,7 +222,7 @@ export function CartView({
                           add({
                             variantId: s.variantId as string,
                             productId: s.id,
-                            name: s.variantLabel ? `${s.name} — ${s.variantLabel}` : s.name,
+                            name: s.variantLabel ? `${s.name} · ${s.variantLabel}` : s.name,
                             unitPriceCents: s.fromPriceCents,
                             qty: 1,
                             image: s.image ?? undefined,

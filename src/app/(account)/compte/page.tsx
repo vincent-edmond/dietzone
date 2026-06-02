@@ -19,7 +19,7 @@ export default async function ComptePage() {
 
       {user.role === 'pro' && (
         <p className="mt-3 inline-block rounded-full bg-[#0A2540] px-3 py-1 text-xs font-semibold text-white">
-          Compte PRO — tarifs préférentiels actifs
+          Compte PRO · tarifs préférentiels actifs
         </p>
       )}
 

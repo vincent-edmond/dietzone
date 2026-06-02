@@ -25,7 +25,7 @@ export async function generateMetadata({
   if (!p) return { title: 'Produit introuvable' }
   return {
     title: p.name,
-    description: p.description?.slice(0, 160) || `${p.name} — nutrition sportive chez DietZone.`,
+    description: p.description?.slice(0, 160) || `${p.name}, nutrition sportive chez DietZone.`,
   }
 }
 

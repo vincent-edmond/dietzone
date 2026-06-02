@@ -38,7 +38,7 @@ export function VariantPicker({
     add({
       variantId: selected.id,
       productId,
-      name: `${productName} — ${selected.label}`,
+      name: `${productName} · ${selected.label}`,
       unitPriceCents: selected.priceCents,
       qty: 1,
       image: image ?? undefined,

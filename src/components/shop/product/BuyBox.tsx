@@ -44,7 +44,7 @@ export function BuyBox({
     add({
       variantId: selected.id,
       productId,
-      name: `${productName} — ${selected.label}`,
+      name: `${productName} · ${selected.label}`,
       unitPriceCents: selected.priceCents,
       qty,
       image: image ?? undefined,
@@ -99,7 +99,7 @@ export function BuyBox({
           <span className="font-semibold text-red-600">En rupture de stock</span>
         ) : lowStock ? (
           <span className="flex items-center gap-1 font-semibold text-orange-600">
-            <Flame className="h-4 w-4" /> Plus que {selected.stock} en stock — dépêche-toi !
+            <Flame className="h-4 w-4" /> Plus que {selected.stock} en stock, dépêche-toi !
           </span>
         ) : (
           <span className="flex items-center gap-1 font-semibold text-green-600">

@@ -14,21 +14,21 @@ export default function MentionsLegalesPage() {
       </p>
       <div className="mt-6 space-y-5 text-sm text-neutral-700">
         <p>
-          <strong>Éditeur —</strong> DietZone — [Raison sociale, statut juridique]. Adresse :
+          <strong>Éditeur :</strong> DietZone, [Raison sociale, statut juridique]. Adresse :
           St-Denis, La Réunion. SIRET : [à compléter].
         </p>
         <p>
-          <strong>Directeur de la publication —</strong> Alexandre Payet.
+          <strong>Directeur de la publication :</strong> Alexandre Payet.
         </p>
         <p>
-          <strong>Hébergement —</strong> Vercel Inc. / Supabase. [Coordonnées complètes à insérer.]
+          <strong>Hébergement :</strong> Vercel Inc. / Supabase. [Coordonnées complètes à insérer.]
         </p>
         <p>
-          <strong>Propriété intellectuelle —</strong> L’ensemble des contenus du site est protégé.
+          <strong>Propriété intellectuelle :</strong> L’ensemble des contenus du site est protégé.
           Toute reproduction non autorisée est interdite.
         </p>
         <p>
-          <strong>Données personnelles —</strong> Les données collectées sont utilisées uniquement
+          <strong>Données personnelles :</strong> Les données collectées sont utilisées uniquement
           pour le traitement des commandes, conformément au RGPD.
         </p>
       </div>

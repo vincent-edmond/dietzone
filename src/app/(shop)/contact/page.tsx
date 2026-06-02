@@ -31,7 +31,7 @@ export default async function ContactPage() {
           {s.storeHours}
         </p>
         <p className="pt-4 text-sm text-neutral-500">
-          Besoin d’un conseil produit ? Utilisez l’assistant en bas à droite de l’écran — il connaît
+          Besoin d’un conseil produit ? Utilisez l’assistant en bas à droite de l’écran : il connaît
           notre catalogue et nos disponibilités.
         </p>
       </div>

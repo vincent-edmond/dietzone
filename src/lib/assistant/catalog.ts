@@ -24,7 +24,7 @@ export function formatCatalog(products: LLMProduct[]): string {
         )
         .join(', ')
       const brand = p.brand ? ` [${p.brand}]` : ''
-      const cat = p.category ? ` — ${p.category}` : ''
+      const cat = p.category ? ` · ${p.category}` : ''
       return `- ${p.name}${brand}${cat} : ${vs}`
     })
     .join('\n')

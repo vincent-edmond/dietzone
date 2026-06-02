@@ -19,7 +19,7 @@ export default function AProposPage() {
         </p>
         <p>
           Notre objectif : vous proposer des produits authentiques et efficaces, avec de vrais
-          conseils d’expert — en magasin comme en ligne. Commandez sur le site pour une livraison
+          conseils d’expert, en magasin comme en ligne. Commandez sur le site pour une livraison
           rapide sur toute l’île, ou récupérez votre commande directement en boutique.
         </p>
         <p>

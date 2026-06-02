@@ -15,30 +15,30 @@ export default function CgvPage() {
       </p>
       <div className="mt-6 space-y-5 text-sm text-neutral-700">
         <p>
-          <strong>1. Objet —</strong> Les présentes CGV régissent les ventes de produits réalisées
+          <strong>1. Objet :</strong> Les présentes CGV régissent les ventes de produits réalisées
           sur le site DietZone.
         </p>
         <p>
-          <strong>2. Prix —</strong> Les prix sont indiqués en euros, toutes taxes comprises (TVA
+          <strong>2. Prix :</strong> Les prix sont indiqués en euros, toutes taxes comprises (TVA
           applicable à La Réunion). DietZone se réserve le droit de modifier ses prix à tout moment.
         </p>
         <p>
-          <strong>3. Commande —</strong> Toute commande vaut acceptation des présentes CGV. Un email
+          <strong>3. Commande :</strong> Toute commande vaut acceptation des présentes CGV. Un email
           de confirmation est envoyé après validation.
         </p>
         <p>
-          <strong>4. Paiement —</strong> Par carte bancaire (paiement sécurisé) ou sur place lors du
+          <strong>4. Paiement :</strong> Par carte bancaire (paiement sécurisé) ou sur place lors du
           retrait en magasin.
         </p>
         <p>
-          <strong>5. Livraison —</strong> Voir la page « Livraison &amp; retours ».
+          <strong>5. Livraison :</strong> Voir la page « Livraison &amp; retours ».
         </p>
         <p>
-          <strong>6. Rétractation —</strong> Dans les conditions prévues par la loi, hors produits
+          <strong>6. Rétractation :</strong> Dans les conditions prévues par la loi, hors produits
           descellés pour raisons d’hygiène.
         </p>
         <p>
-          <strong>7. Coordonnées —</strong> DietZone, St-Denis, La Réunion. [SIRET, raison sociale et
+          <strong>7. Coordonnées :</strong> DietZone, St-Denis, La Réunion. [SIRET, raison sociale et
           mentions légales complètes à insérer.]
         </p>
       </div>

@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 Tu connais le catalogue et les stocks ci-dessous. Aide le client à choisir selon son objectif (prise de masse, sèche, énergie, santé), indique la disponibilité et le prix (TTC en euros).
 Règles : sois concis, chaleureux et expert ; si un produit est en rupture, propose une alternative en stock ; ne donne jamais de conseil médical ; pour finaliser, invite à commander sur le site ou à passer en magasin (${settings.storeAddress}, ${settings.storeHours}).
 
-CATALOGUE (nom [marque] — catégorie : variantes prix (stock)) :
+CATALOGUE (nom [marque] · catégorie : variantes prix (stock)) :
 ${catalog}`
 
   try {
