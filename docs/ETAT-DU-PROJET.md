@@ -75,6 +75,12 @@ PAS d'emoji) · **zustand** (panier) · déploiement **Netlify** (runtime Next.j
     (`computePriceSet(ttc, vat, ctx)`). Visible dans BuyBox + ProductCard.
   - **PRO en attente** (`canAddToCart` = false) : voit l'offre PRO mais **panier bloqué** (BuyBox/StickyBar/
     BundleTogether/CartView) jusqu'à validation admin. Bannière sur `/compte`.
+  - **PRO suspendu** (`proSuspended` ; `profiles.pro_disabled` = true via toggle admin, migration 0010) : même
+    comportement (voit l'offre, panier bloqué). Liste des partenaires + switch on/off sur `/admin/demandes-pro`
+    (`listProPartners` / `setProActive`). Le rôle reste `pro`.
+  - **MOQ PRO** : `settings.pro_min_qty_per_item` (défaut **10**, réglable dans `/admin/reglages`, migration 0011).
+    `PricingContext.minQtyPerItem` (= réglage si PRO actif, sinon 1) → qty de départ + plancher des steppers
+    (BuyBox/StickyBar/BundleTogether/CartView).
 - Slugs minuscules sans accents. uuid. `created_at timestamptz default now()`.
 - Scripts : `npm run dev|build|test|typecheck|lint`. Toujours valider build+test+lint avant push.
 
