@@ -28,9 +28,15 @@ export async function signIn(_prev: AuthState, formData: FormData): Promise<Auth
   const email = String(formData.get('email') ?? '')
   const password = String(formData.get('password') ?? '')
   const sb = await createClient()
-  const { error } = await sb.auth.signInWithPassword({ email, password })
-  if (error) return { error: 'Email ou mot de passe incorrect.' }
-  redirect('/compte')
+  const { data, error } = await sb.auth.signInWithPassword({ email, password })
+  if (error || !data.user) return { error: 'Email ou mot de passe incorrect.' }
+  // Les admins atterrissent directement sur le tableau de bord.
+  const { data: profile } = await sb
+    .from('profiles')
+    .select('role')
+    .eq('id', data.user.id)
+    .maybeSingle()
+  redirect(profile?.role === 'admin' ? '/admin' : '/compte')
 }
 
 export async function signUp(_prev: AuthState, formData: FormData): Promise<AuthState> {

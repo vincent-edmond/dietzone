@@ -23,6 +23,23 @@ export default async function ComptePage() {
         </p>
       )}
 
+      {user.role === 'admin' && (
+        <Link
+          href="/admin"
+          className="mt-4 flex items-center justify-between rounded-xl bg-neutral-950 px-5 py-4 text-white transition hover:bg-neutral-800"
+        >
+          <span>
+            <span className="block text-sm font-bold uppercase tracking-wide">
+              Tableau de bord admin
+            </span>
+            <span className="text-xs text-neutral-400">
+              Produits, stock, commandes, demandes PRO, réglages
+            </span>
+          </span>
+          <span className="text-xl">→</span>
+        </Link>
+      )}
+
       <section className="mt-8">
         <h2 className="mb-3 text-lg font-semibold">Mes informations</h2>
         <ProfileForm fullName={user.fullName} phone={user.phone} />
