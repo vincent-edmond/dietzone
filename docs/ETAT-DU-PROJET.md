@@ -2,7 +2,7 @@
 
 > **À LIRE EN PREMIER au début de chaque session.** Ce document est la source de vérité du
 > projet : il survit à toute compaction de contexte. Tenir à jour après chaque avancée majeure.
-> Dernière mise à jour : 2026-06-02.
+> Dernière mise à jour : 2026-06-02 (ajouts : upload image admin, refresh UI admin, redirection admin au login).
 
 ---
 
@@ -148,8 +148,9 @@ Chaque produit a ~3 avis de démo (note ~4,7★) — à remplacer par de vrais a
    transactionnels (Resend). Le bouton « Passer la commande » du panier est **désactivé** en attendant.
    Nécessite : `SUPABASE_SERVICE_ROLE_KEY` + compte **Stripe** (test) + compte **Resend**. Détaillé dans
    `docs/superpowers/plans/2026-06-02-03-panier-checkout.md`.
-2. **Upload d'images produit depuis l'admin** : bucket Storage `product-images` existe + RLS ok, mais l'UI
-   d'upload (ImageUploader) n'est pas branchée. Pour l'instant les photos sont des fichiers `public/produits/`.
+2. ~~Upload d'images produit depuis l'admin~~ ✅ FAIT : `ImageUploader` (upload Supabase Storage bucket
+   `product-images` → `setProductImage`), section Photo dans `/admin/produits/[id]`. (Les anciennes photos
+   seedées restent en `public/produits/`; les nouvelles vont dans Storage.)
 3. **Logos de marques** : remplacer les plaques texte (bande marquee accueil) par les vrais logos → demander les
    FICHIERS au client (les API de logos sont HS sans clé : Clearbit déprécié, logo.dev/Brandfetch = clé requise).
 4. **Galerie multi-images** par produit (actuellement 1 image).
