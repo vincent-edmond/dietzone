@@ -41,7 +41,7 @@ ${catalog}`
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-haiku-latest',
+        model: 'claude-haiku-4-5',
         max_tokens: 700,
         system,
         messages: messages.map((m) => ({ role: m.role, content: m.content })),
