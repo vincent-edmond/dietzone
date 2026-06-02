@@ -24,8 +24,28 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const [p, pricing] = await Promise.all([getProductBySlug(slug), getPricingContext()])
   if (!p) notFound()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: p.name,
+    description: p.description || undefined,
+    brand: p.brand ? { '@type': 'Brand', name: p.brand } : undefined,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'EUR',
+      price: (p.fromPriceCents / 100).toFixed(2),
+      availability: p.inStock
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+    },
+  }
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav className="mb-6 text-sm text-neutral-500">
         <Link href="/boutique" className="hover:underline">
           Boutique
