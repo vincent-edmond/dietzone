@@ -136,3 +136,24 @@
     line-height: 1.05;
   }
 }
+
+/* ===== Animations ===== */
+@keyframes dz-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.dz-marquee {
+  animation: dz-marquee 28s linear infinite;
+}
+.dz-marquee-group:hover .dz-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes dz-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dz-marquee { animation: none; }
+}

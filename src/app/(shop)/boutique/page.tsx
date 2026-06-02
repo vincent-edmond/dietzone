@@ -36,18 +36,24 @@ export default async function BoutiquePage({
   ])
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="text-2xl font-bold tracking-tight">Boutique</h1>
-      <p className="mt-1 text-sm text-neutral-500">{products.length} produit(s)</p>
+    <main>
+      {/* Bannière */}
+      <section className="relative overflow-hidden bg-neutral-950 text-white">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_0%_0%,rgba(225,29,42,0.4),transparent_60%)]" />
+        <div className="relative mx-auto max-w-6xl px-4 py-12">
+          <h1 className="text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">Boutique</h1>
+          <p className="mt-1 text-sm text-neutral-400">{products.length} produit(s) disponibles</p>
+        </div>
+      </section>
 
-      <div className="mt-6">
+      <div className="mx-auto max-w-6xl px-4 py-8">
         <Suspense>
           <Filters categories={categories} brands={brands} objectives={objectives} />
         </Suspense>
-      </div>
 
-      <div className="mt-8">
-        <ProductGrid products={products} />
+        <div className="mt-8">
+          <ProductGrid products={products} pricing={pricing} />
+        </div>
       </div>
     </main>
   )

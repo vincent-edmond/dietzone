@@ -23,7 +23,7 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/" aria-label="Accueil DietZone" className="flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-dietzone.png" alt="DietZone" className="h-9 w-auto" />
+          <img src="/logo-dietzone.png" alt="DietZone" className="h-12 w-auto" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">

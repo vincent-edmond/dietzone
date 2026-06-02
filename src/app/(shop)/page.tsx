@@ -5,7 +5,7 @@ import { getPricingContext } from '@/features/pro/context'
 import { listBrands } from '@/features/catalog/taxonomy'
 import { ProductGrid } from '@/components/shop/ProductGrid'
 import { ObjectiveTiles } from '@/components/shop/home/ObjectiveTiles'
-import { buttonVariants } from '@/components/ui/button'
+import { Reveal } from '@/components/ui/Reveal'
 import { demoImages } from '@/lib/demoImages'
 
 const REASSURANCE = [
@@ -22,30 +22,30 @@ export default async function HomePage() {
     listBrands(),
   ])
   const bestSellers = products.slice(0, 8)
+  const marquee = brands.length ? [...brands, ...brands, ...brands, ...brands] : []
 
   return (
     <>
-      {/* ===== HERO — sombre & explosif ===== */}
+      {/* ===== HERO ===== */}
       <section className="relative overflow-hidden bg-neutral-950 text-white">
-        {/* image de fond (démo) */}
         <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-center"
+          className="pointer-events-none absolute inset-0 scale-105 bg-cover bg-center"
           style={{ backgroundImage: `url(${demoImages.hero})` }}
         />
-        {/* voile sombre pour la lisibilité */}
         <div className="pointer-events-none absolute inset-0 bg-neutral-950/82" />
-        {/* glow rouge */}
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_60%_at_50%_-10%,rgba(225,29,42,0.5),transparent_70%)]" />
         <div className="pointer-events-none absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
 
-        <div className="relative mx-auto max-w-6xl px-4 py-24 text-center sm:py-32">
+        <div className="relative mx-auto max-w-6xl animate-in px-4 py-24 text-center fade-in slide-in-from-bottom-6 duration-1000 sm:py-32">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
             Nutrition sportive · La Réunion
           </p>
-          <h1 className="mx-auto mt-5 max-w-5xl text-5xl font-extrabold uppercase leading-[0.88] tracking-tight sm:text-7xl lg:text-8xl">
+          <h1 className="mx-auto mt-5 max-w-5xl text-5xl font-extrabold uppercase leading-[0.88] tracking-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)] sm:text-7xl lg:text-8xl">
             Dépasse tes limites.
             <br />
-            <span className="text-primary">Performe.</span>
+            <span className="bg-gradient-to-r from-primary to-red-500 bg-clip-text text-transparent">
+              Performe.
+            </span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-neutral-300">
             Protéines, créatine, pre-workout — les meilleures marques, sélectionnées par Alexandre,
@@ -54,10 +54,10 @@ export default async function HomePage() {
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/boutique"
-              className={`${buttonVariants({ size: 'lg' })} h-14 px-8 text-base font-bold uppercase tracking-wide`}
+              className="inline-flex h-14 items-center justify-center gap-1 rounded-md bg-gradient-to-r from-primary to-red-700 px-8 text-base font-bold uppercase tracking-wide text-white shadow-lg shadow-primary/30 transition-transform hover:scale-[1.04]"
             >
               Découvrir la boutique
-              <ArrowRight className="ml-1 h-5 w-5" />
+              <ArrowRight className="h-5 w-5" />
             </Link>
             <Link
               href="/pro"
@@ -68,7 +68,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* bandeau réassurance intégré (sur fond sombre) */}
         <div className="relative border-t border-white/10">
           <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-white/10 sm:grid-cols-4">
             {REASSURANCE.map((r) => (
@@ -85,51 +84,55 @@ export default async function HomePage() {
       </section>
 
       {/* ===== OBJECTIFS ===== */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="flex items-end gap-3">
-          <span className="h-8 w-1.5 rounded bg-primary" />
-          <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
-            Achète par objectif
-          </h2>
-        </div>
-        <div className="mt-8">
-          <ObjectiveTiles />
-        </div>
-      </section>
-
-      {/* ===== PRODUITS ===== */}
-      <section className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="flex items-end justify-between">
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 py-16">
           <div className="flex items-end gap-3">
             <span className="h-8 w-1.5 rounded bg-primary" />
             <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
-              Nos produits
+              Achète par objectif
             </h2>
           </div>
-          <Link
-            href="/boutique"
-            className="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-wide text-primary hover:underline"
-          >
-            Voir tout <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <div className="mt-8">
-          <ProductGrid products={bestSellers} pricing={pricing} />
-        </div>
-      </section>
+          <div className="mt-8">
+            <ObjectiveTiles />
+          </div>
+        </section>
+      </Reveal>
 
-      {/* ===== MARQUES (bande sombre) ===== */}
+      {/* ===== PRODUITS ===== */}
+      <Reveal>
+        <section className="mx-auto max-w-6xl px-4 pb-16">
+          <div className="flex items-end justify-between">
+            <div className="flex items-end gap-3">
+              <span className="h-8 w-1.5 rounded bg-primary" />
+              <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
+                Nos produits
+              </h2>
+            </div>
+            <Link
+              href="/boutique"
+              className="inline-flex items-center gap-1 text-sm font-bold uppercase tracking-wide text-primary hover:underline"
+            >
+              Voir tout <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          <div className="mt-8">
+            <ProductGrid products={bestSellers} pricing={pricing} />
+          </div>
+        </section>
+      </Reveal>
+
+      {/* ===== MARQUES (marquee) ===== */}
       {brands.length > 0 && (
-        <section className="bg-neutral-950">
-          <div className="mx-auto max-w-6xl px-4 py-10">
-            <p className="text-center text-xs font-bold uppercase tracking-[0.3em] text-neutral-500">
-              Nos marques
-            </p>
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
-              {brands.map((b) => (
+        <section className="overflow-hidden bg-neutral-950 py-12">
+          <p className="mb-6 text-center text-xs font-bold uppercase tracking-[0.3em] text-neutral-500">
+            Nos marques
+          </p>
+          <div className="dz-marquee-group relative flex">
+            <div className="dz-marquee flex shrink-0 items-center gap-4 pr-4">
+              {marquee.map((b, idx) => (
                 <span
-                  key={b.slug}
-                  className="text-xl font-extrabold uppercase tracking-wide text-neutral-400"
+                  key={`${b.slug}-${idx}`}
+                  className="flex h-16 min-w-44 items-center justify-center rounded-lg bg-white/5 px-6 text-lg font-extrabold uppercase tracking-wide text-neutral-300 ring-1 ring-white/10"
                 >
                   {b.name}
                 </span>
@@ -139,33 +142,35 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ===== CTA EXPERT / ASSISTANT ===== */}
-      <section className="relative overflow-hidden bg-primary text-white">
-        <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${demoImages.cta})` }}
-        />
-        <div className="pointer-events-none absolute inset-0 bg-primary/85" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_100%_0%,rgba(0,0,0,0.45),transparent_60%)]" />
-        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-16 text-center md:flex-row md:justify-between md:text-left">
-          <div>
-            <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
-              Besoin d’un conseil ?
-            </h2>
-            <p className="mt-2 max-w-xl text-white/85">
-              Notre assistant connaît tout le catalogue et les stocks. Ou passe en magasin parler à
-              Alexandre, expert en nutrition sportive.
-            </p>
+      {/* ===== CTA EXPERT ===== */}
+      <Reveal>
+        <section className="relative overflow-hidden bg-primary text-white">
+          <div
+            className="pointer-events-none absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${demoImages.cta})` }}
+          />
+          <div className="pointer-events-none absolute inset-0 bg-primary/85" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_120%_at_100%_0%,rgba(0,0,0,0.45),transparent_60%)]" />
+          <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-16 text-center md:flex-row md:justify-between md:text-left">
+            <div>
+              <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
+                Besoin d’un conseil ?
+              </h2>
+              <p className="mt-2 max-w-xl text-white/85">
+                Notre assistant connaît tout le catalogue et les stocks. Ou passe en magasin parler à
+                Alexandre, expert en nutrition sportive.
+              </p>
+            </div>
+            <Link
+              href="/boutique"
+              className="inline-flex h-14 shrink-0 items-center justify-center gap-1 rounded-md bg-white px-8 text-base font-bold uppercase tracking-wide text-neutral-950 shadow-lg transition-transform hover:scale-[1.04]"
+            >
+              Commencer
+              <ArrowRight className="h-5 w-5" />
+            </Link>
           </div>
-          <Link
-            href="/boutique"
-            className="inline-flex h-14 shrink-0 items-center justify-center rounded-md bg-white px-8 text-base font-bold uppercase tracking-wide text-neutral-950 transition hover:bg-neutral-100"
-          >
-            Commencer
-            <ArrowRight className="ml-1 h-5 w-5" />
-          </Link>
-        </div>
-      </section>
+        </section>
+      </Reveal>
     </>
   )
 }

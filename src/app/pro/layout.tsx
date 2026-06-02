@@ -1,5 +1,5 @@
 import { SiteChrome } from '@/components/shop/SiteChrome'
 
-export default function ShopLayout({ children }: { children: React.ReactNode }) {
+export default function ProLayout({ children }: { children: React.ReactNode }) {
   return <SiteChrome>{children}</SiteChrome>
 }
