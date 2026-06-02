@@ -11,8 +11,10 @@ export async function getPricingContext(): Promise<PricingContext> {
     return { isPro: false, proPercent: settings.proDiscountPercent, isPendingPro: false }
   }
   const isPro = isProPricing(user.role) && !user.proDisabled
+  // PRO suspendu par l'admin : conserve le rôle 'pro' mais accès commande coupé.
+  const proSuspended = isProPricing(user.role) && user.proDisabled
   let isPendingPro = false
-  if (!isPro && user.role === 'customer') {
+  if (!isPro && !proSuspended && user.role === 'customer') {
     const sb = await createClient()
     const { data } = await sb
       .from('pro_applications')
@@ -23,5 +25,5 @@ export async function getPricingContext(): Promise<PricingContext> {
       .maybeSingle()
     isPendingPro = Boolean(data)
   }
-  return { isPro, proPercent: settings.proDiscountPercent, isPendingPro }
+  return { isPro, proPercent: settings.proDiscountPercent, isPendingPro, proSuspended }
 }

@@ -1,28 +1,35 @@
 import { applyProDiscount, htCentsFromTtc } from '@/lib/money'
 
 export interface PricingContext {
-  /** PRO approuvé : prix remisés appliqués au paiement. */
+  /** PRO approuvé et actif : prix remisés appliqués au paiement. */
   isPro: boolean
   proPercent: number
   /** Demande PRO en attente : voit l'offre PRO mais ne peut pas encore commander. */
   isPendingPro?: boolean
+  /** PRO suspendu par l'admin : voit l'offre PRO mais commande désactivée. */
+  proSuspended?: boolean
 }
 
-export const PUBLIC_PRICING: PricingContext = { isPro: false, proPercent: 0, isPendingPro: false }
+export const PUBLIC_PRICING: PricingContext = {
+  isPro: false,
+  proPercent: 0,
+  isPendingPro: false,
+  proSuspended: false,
+}
 
 /** Prix à afficher selon le contexte : public, ou remisé pour un client PRO. */
 export function displayPriceCents(publicCents: number, ctx: PricingContext): number {
   return ctx.isPro ? applyProDiscount(publicCents, ctx.proPercent) : publicCents
 }
 
-/** L'utilisateur voit-il l'offre PRO (PRO approuvé OU demande en attente) ? */
+/** L'utilisateur voit-il l'offre PRO (PRO actif, en attente, ou suspendu) ? */
 export function showsProOffer(ctx: PricingContext): boolean {
-  return Boolean(ctx.isPro || ctx.isPendingPro)
+  return Boolean(ctx.isPro || ctx.isPendingPro || ctx.proSuspended)
 }
 
-/** Peut-il ajouter au panier ? (Un PRO en attente ne peut pas tant qu'il n'est pas validé.) */
+/** Peut-il ajouter au panier ? (Bloqué si demande en attente ou compte suspendu.) */
 export function canAddToCart(ctx: PricingContext): boolean {
-  return !ctx.isPendingPro
+  return !ctx.isPendingPro && !ctx.proSuspended
 }
 
 export interface PriceSet {

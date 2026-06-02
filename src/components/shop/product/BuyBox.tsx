@@ -141,10 +141,17 @@ export function BuyBox({
       {!purchasable ? (
         <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
           <Clock className="mt-0.5 h-4 w-4 shrink-0" />
-          <span>
-            <strong>Compte PRO en attente de validation.</strong> Vous voyez déjà vos tarifs PRO,
-            mais vous pourrez commander une fois votre accès approuvé par Alexandre.
-          </span>
+          {pricing.proSuspended ? (
+            <span>
+              <strong>Compte PRO suspendu.</strong> Vos tarifs PRO restent affichés, mais la
+              commande est désactivée. Contactez Alexandre pour réactiver votre accès.
+            </span>
+          ) : (
+            <span>
+              <strong>Compte PRO en attente de validation.</strong> Vous voyez déjà vos tarifs PRO,
+              mais vous pourrez commander une fois votre accès approuvé par Alexandre.
+            </span>
+          )}
         </div>
       ) : (
         <>

@@ -19,10 +19,20 @@ export default async function ComptePage() {
       </div>
       <p className="mt-1 text-sm text-neutral-500">{user.email}</p>
 
-      {user.role === 'pro' && (
+      {user.role === 'pro' && !pricing.proSuspended && (
         <p className="mt-3 inline-block rounded-full bg-[#0A2540] px-3 py-1 text-xs font-semibold text-white">
           Compte PRO · tarifs préférentiels actifs
         </p>
+      )}
+
+      {pricing.proSuspended && (
+        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <p className="font-semibold">Compte PRO suspendu</p>
+          <p className="mt-1 text-amber-700">
+            Vos tarifs PRO restent visibles, mais la commande est désactivée. Contactez Alexandre
+            pour réactiver votre accès.
+          </p>
+        </div>
       )}
 
       {pricing.isPendingPro && (
