@@ -23,6 +23,45 @@ export async function setProductImage(productId: string, url: string | null): Pr
   revalidatePath('/boutique')
 }
 
+/** Action rapide : activer / masquer un produit en un clic. */
+export async function toggleProductActive(id: string, isActive: boolean): Promise<void> {
+  await requireRole('admin')
+  const sb = await createClient()
+  await sb.from('products').update({ is_active: isActive }).eq('id', id)
+  revalidatePath('/admin/produits')
+  revalidatePath('/boutique')
+}
+
+/** Action rapide : modifier le taux de TVA d'un produit (en %). */
+export async function setProductVatRate(id: string, vatRate: number): Promise<void> {
+  await requireRole('admin')
+  if (!Number.isFinite(vatRate) || vatRate < 0 || vatRate > 100) return
+  const sb = await createClient()
+  await sb.from('products').update({ vat_rate: vatRate }).eq('id', id)
+  revalidatePath('/admin/produits')
+}
+
+/** Action rapide : modifier le prix TTC d'un produit mono-variante. */
+export async function setSingleVariantPrice(
+  productId: string,
+  priceCents: number,
+): Promise<{ error?: string }> {
+  await requireRole('admin')
+  if (!Number.isInteger(priceCents) || priceCents <= 0) return { error: 'Prix invalide.' }
+  const sb = await createClient()
+  const { data: variants } = await sb
+    .from('product_variants')
+    .select('id')
+    .eq('product_id', productId)
+  if (!variants || variants.length !== 1) {
+    return { error: 'Plusieurs variantes : éditez la fiche produit.' }
+  }
+  await sb.from('product_variants').update({ price_cents: priceCents }).eq('id', variants[0].id)
+  revalidatePath('/admin/produits')
+  revalidatePath('/boutique')
+  return {}
+}
+
 function embedName(v: unknown): string | null {
   if (Array.isArray(v)) return (v[0] as { name?: string } | undefined)?.name ?? null
   return (v as { name?: string } | null)?.name ?? null
@@ -36,6 +75,7 @@ export interface AdminProductRow {
   brand: string | null
   category: string | null
   isActive: boolean
+  vatRate: number
   variantCount: number
   totalStock: number
   minPriceCents: number | null
@@ -46,7 +86,7 @@ export async function listAdminProducts(): Promise<AdminProductRow[]> {
   const sb = await createClient()
   const { data } = await sb
     .from('products')
-    .select('id, name, slug, is_active, images, brands(name), categories(name), product_variants(price_cents, stock_qty)')
+    .select('id, name, slug, is_active, vat_rate, images, brands(name), categories(name), product_variants(price_cents, stock_qty)')
     .order('created_at', { ascending: false })
   return (data ?? []).map((p) => {
     const variants = (p.product_variants ?? []) as { price_cents: number; stock_qty: number }[]
@@ -58,6 +98,7 @@ export async function listAdminProducts(): Promise<AdminProductRow[]> {
       brand: embedName(p.brands),
       category: embedName(p.categories),
       isActive: p.is_active,
+      vatRate: Number(p.vat_rate ?? 8.5),
       variantCount: variants.length,
       totalStock: variants.reduce((s, v) => s + v.stock_qty, 0),
       minPriceCents: variants.length ? Math.min(...variants.map((v) => v.price_cents)) : null,

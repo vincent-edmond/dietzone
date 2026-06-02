@@ -17,3 +17,13 @@ export function eurosToCents(euros: number): number {
 export function applyProDiscount(cents: number, percent: number): number {
   return Math.round((cents * (100 - percent)) / 100)
 }
+
+/** Montant HT (centimes) à partir d'un montant TTC et d'un taux de TVA en %. */
+export function htCentsFromTtc(ttcCents: number, vatRate: number): number {
+  return Math.round(ttcCents / (1 + vatRate / 100))
+}
+
+/** Montant de TVA (centimes) à partir d'un montant TTC et d'un taux de TVA en %. */
+export function vatCentsFromTtc(ttcCents: number, vatRate: number): number {
+  return ttcCents - htCentsFromTtc(ttcCents, vatRate)
+}
