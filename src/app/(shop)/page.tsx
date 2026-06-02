@@ -40,7 +40,7 @@ export default async function HomePage() {
         <div className="pointer-events-none absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
         <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-royal/20 blur-3xl" />
 
-        <div className="relative mx-auto max-w-6xl animate-in px-4 py-24 text-center fade-in slide-in-from-bottom-6 duration-1000 sm:py-32">
+        <div className="relative mx-auto max-w-6xl animate-in px-4 py-10 text-center fade-in slide-in-from-bottom-6 duration-1000 sm:py-32">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
             Nutrition sportive · La Réunion
           </p>
