@@ -171,6 +171,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             productName={p.name}
             image={p.images[0]}
             variants={p.variants}
+            vatRate={p.vatRate}
             pricing={pricing}
             freeShipThresholdCents={settings.freeShippingThresholdCents}
           />

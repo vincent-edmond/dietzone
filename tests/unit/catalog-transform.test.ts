@@ -22,6 +22,7 @@ describe('toProductCard', () => {
       image: '/img/spm.jpg',
       fromPriceCents: 3900,
       inStock: true,
+      vatRate: 8.5,
       variantId: 'v2',
       variantLabel: '150g',
       stock: 0,

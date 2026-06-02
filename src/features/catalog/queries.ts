@@ -10,6 +10,8 @@ export interface ProductCard {
   /** Prix mini en centimes parmi les variantes actives. */
   fromPriceCents: number
   inStock: boolean
+  /** Taux de TVA du produit (%), pour dériver le HT. */
+  vatRate: number
   /** Variante la moins chère (pour ajout panier rapide / bundles). */
   variantId: string | null
   variantLabel: string | null
@@ -52,7 +54,7 @@ export async function listProducts(filters: CatalogFilters = {}): Promise<Produc
   let q = sb
     .from('products')
     .select(
-      `id, name, slug, images, created_at, ${brandJoin}, ${catJoin}, ${objJoin}, product_variants(id, label, price_cents, stock_qty, is_active)`,
+      `id, name, slug, images, vat_rate, created_at, ${brandJoin}, ${catJoin}, ${objJoin}, product_variants(id, label, price_cents, stock_qty, is_active)`,
     )
     .eq('is_active', true)
     .order('created_at', { ascending: false })
@@ -76,7 +78,7 @@ export async function getProductBySlug(slug: string): Promise<ProductDetail | nu
   const { data, error } = await sb
     .from('products')
     .select(
-      `id, name, slug, description, images, brands(name), categories(name), product_objectives(objectives(name)), product_variants(id, label, price_cents, stock_qty, is_active)`,
+      `id, name, slug, description, images, vat_rate, brands(name), categories(name), product_objectives(objectives(name)), product_variants(id, label, price_cents, stock_qty, is_active)`,
     )
     .eq('slug', slug)
     .eq('is_active', true)

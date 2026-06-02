@@ -6,7 +6,12 @@ import { Plus, Check, ShoppingCart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { formatEuros } from '@/lib/money'
 import { useCart } from '@/features/cart/store'
-import { displayPriceCents, PUBLIC_PRICING, type PricingContext } from '@/features/pro/pricing'
+import {
+  displayPriceCents,
+  canAddToCart,
+  PUBLIC_PRICING,
+  type PricingContext,
+} from '@/features/pro/pricing'
 
 export interface BundleItem {
   variantId: string
@@ -33,6 +38,7 @@ export function BundleTogether({
     () => new Set(buyable.map((it) => it.variantId)),
   )
   const [done, setDone] = useState(false)
+  const purchasable = canAddToCart(pricing)
 
   if (buyable.length < 2) return null
 
@@ -146,10 +152,12 @@ export function BundleTogether({
       <Button
         size="lg"
         onClick={addAll}
-        disabled={chosen.length === 0}
+        disabled={chosen.length === 0 || !purchasable}
         className="mt-5 h-12 w-full text-base font-bold uppercase tracking-wide sm:w-auto"
       >
-        {done ? (
+        {!purchasable ? (
+          'PRO en attente de validation'
+        ) : done ? (
           <>
             <Check className="h-5 w-5" /> Ajouté au panier
           </>

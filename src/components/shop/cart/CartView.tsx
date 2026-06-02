@@ -18,7 +18,12 @@ import { useCart } from '@/features/cart/store'
 import { useHydrated } from '@/features/cart/useHydrated'
 import { computeTotals } from '@/features/cart/totals'
 import { formatEuros } from '@/lib/money'
-import { displayPriceCents, PUBLIC_PRICING, type PricingContext } from '@/features/pro/pricing'
+import {
+  displayPriceCents,
+  canAddToCart,
+  PUBLIC_PRICING,
+  type PricingContext,
+} from '@/features/pro/pricing'
 import type { ProductCard } from '@/features/catalog/queries'
 
 export function CartView({
@@ -76,6 +81,7 @@ export function CartView({
     ? Math.min(100, Math.round((totals.subtotalCents / freeShipThresholdCents) * 100))
     : 100
 
+  const purchasable = canAddToCart(pricing)
   const inCart = new Set(lines.map((l) => l.productId))
   const reco = suggestions
     .filter((s) => s.variantId && s.inStock && !inCart.has(s.id))
@@ -229,7 +235,8 @@ export function CartView({
                             maxStock: s.stock,
                           })
                         }
-                        className="inline-flex h-9 shrink-0 items-center gap-1 rounded-md border-2 border-primary px-3 text-sm font-bold uppercase tracking-wide text-primary transition hover:bg-primary hover:text-white"
+                        disabled={!purchasable}
+                        className="inline-flex h-9 shrink-0 items-center gap-1 rounded-md border-2 border-primary px-3 text-sm font-bold uppercase tracking-wide text-primary transition hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:text-neutral-300 disabled:hover:bg-transparent"
                       >
                         <Plus className="h-4 w-4" /> Ajouter
                       </button>

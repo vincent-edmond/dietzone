@@ -5,7 +5,12 @@ import { Button } from '@/components/ui/button'
 import { formatEuros } from '@/lib/money'
 import type { ProductVariantView } from '@/features/catalog/queries'
 import { useCart } from '@/features/cart/store'
-import { displayPriceCents, PUBLIC_PRICING, type PricingContext } from '@/features/pro/pricing'
+import {
+  displayPriceCents,
+  canAddToCart,
+  PUBLIC_PRICING,
+  type PricingContext,
+} from '@/features/pro/pricing'
 
 export function StickyBar({
   productId,
@@ -32,6 +37,7 @@ export function StickyBar({
 
   if (!v) return null
   const unit = displayPriceCents(v.priceCents, pricing)
+  const purchasable = canAddToCart(pricing)
 
   return (
     <div
@@ -66,10 +72,10 @@ export function StickyBar({
               maxStock: v.stock,
             })
           }
-          disabled={v.stock <= 0}
+          disabled={v.stock <= 0 || !purchasable}
           className="shrink-0 font-bold uppercase tracking-wide"
         >
-          Ajouter
+          {purchasable ? 'Ajouter' : 'PRO en attente'}
         </Button>
       </div>
     </div>

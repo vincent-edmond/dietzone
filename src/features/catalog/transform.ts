@@ -19,6 +19,7 @@ export interface ProductRow {
   slug: string
   description?: string | null
   images?: string[] | null
+  vat_rate?: number | null
   brands?: NamedRow | NamedRow[] | null
   categories?: NamedRow | NamedRow[] | null
   product_variants?: VariantRow[] | null
@@ -45,6 +46,7 @@ export function toProductCard(row: ProductRow): ProductCard {
     image: row.images?.[0] ?? null,
     fromPriceCents: cheapest ? cheapest.price_cents : 0,
     inStock: variants.some((v) => v.stock_qty > 0),
+    vatRate: Number(row.vat_rate ?? 8.5),
     variantId: cheapest?.id ?? null,
     variantLabel: cheapest?.label ?? null,
     stock: cheapest?.stock_qty ?? 0,

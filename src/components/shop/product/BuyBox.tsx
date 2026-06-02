@@ -1,18 +1,25 @@
 'use client'
 
 import { useState } from 'react'
-import { Minus, Plus, ShieldCheck, Truck, Store, CreditCard, Check, Flame } from 'lucide-react'
+import { Minus, Plus, ShieldCheck, Truck, Store, CreditCard, Check, Flame, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { formatEuros } from '@/lib/money'
 import type { ProductVariantView } from '@/features/catalog/queries'
 import { useCart } from '@/features/cart/store'
-import { displayPriceCents, PUBLIC_PRICING, type PricingContext } from '@/features/pro/pricing'
+import {
+  computePriceSet,
+  showsProOffer,
+  canAddToCart,
+  PUBLIC_PRICING,
+  type PricingContext,
+} from '@/features/pro/pricing'
 
 export function BuyBox({
   productId,
   productName,
   image,
   variants,
+  vatRate = 8.5,
   pricing = PUBLIC_PRICING,
   freeShipThresholdCents,
 }: {
@@ -20,6 +27,7 @@ export function BuyBox({
   productName: string
   image?: string | null
   variants: ProductVariantView[]
+  vatRate?: number
   pricing?: PricingContext
   freeShipThresholdCents: number
 }) {
@@ -33,14 +41,15 @@ export function BuyBox({
 
   const outOfStock = selected.stock <= 0
   const lowStock = !outOfStock && selected.stock <= 5
-  const unit = displayPriceCents(selected.priceCents, pricing)
-  const discounted = pricing.isPro && unit < selected.priceCents
-  const lineTotal = unit * qty
+  const showPro = showsProOffer(pricing)
+  const purchasable = canAddToCart(pricing)
+  const prices = computePriceSet(selected.priceCents, vatRate, pricing)
+  const lineTotal = (pricing.isPro ? prices.proTtcCents : prices.publicTtcCents) * qty
   const remaining = Math.max(0, freeShipThresholdCents - lineTotal)
   const shipPct = Math.min(100, Math.round((lineTotal / freeShipThresholdCents) * 100))
 
   function handleAdd() {
-    if (outOfStock) return
+    if (outOfStock || !purchasable) return
     add({
       variantId: selected.id,
       productId,
@@ -78,20 +87,40 @@ export function BuyBox({
       )}
 
       {/* Prix */}
-      <div className="flex items-end gap-3">
-        <span className="text-4xl font-extrabold text-neutral-900">{formatEuros(unit)}</span>
-        {discounted && (
-          <span className="mb-1 text-lg text-neutral-400 line-through">
-            {formatEuros(selected.priceCents)}
+      {showPro ? (
+        <div className="rounded-xl border border-navy/15 bg-navy/5 p-4">
+          <div className="flex flex-wrap items-baseline gap-x-2 text-sm text-neutral-500">
+            <span>
+              Public&nbsp;:{' '}
+              <span className="font-semibold text-neutral-700">
+                {formatEuros(prices.publicTtcCents)}
+              </span>{' '}
+              TTC
+            </span>
+            <span className="text-neutral-300">·</span>
+            <span>{formatEuros(prices.publicHtCents)} HT</span>
+          </div>
+          <div className="mt-1 flex flex-wrap items-end gap-2">
+            <span className="text-4xl font-extrabold text-navy">
+              {formatEuros(prices.proHtCents)}
+            </span>
+            <span className="mb-1 text-base font-bold text-navy">HT</span>
+            <span className="mb-1.5 rounded bg-navy px-2 py-0.5 text-xs font-bold uppercase text-white">
+              Prix PRO −{pricing.proPercent}%
+            </span>
+          </div>
+          <p className="mt-0.5 text-xs text-neutral-400">
+            soit {formatEuros(prices.proTtcCents)} TTC
+          </p>
+        </div>
+      ) : (
+        <div className="flex items-end gap-3">
+          <span className="text-4xl font-extrabold text-neutral-900">
+            {formatEuros(prices.publicTtcCents)}
           </span>
-        )}
-        {discounted && (
-          <span className="mb-1.5 rounded bg-[#0A2540] px-2 py-0.5 text-xs font-bold uppercase text-white">
-            Prix PRO
-          </span>
-        )}
-        <span className="mb-2 text-xs text-neutral-400">TTC</span>
-      </div>
+          <span className="mb-2 text-xs text-neutral-400">TTC</span>
+        </div>
+      )}
 
       {/* Stock */}
       <div className="flex items-center gap-2 text-sm">
@@ -108,58 +137,71 @@ export function BuyBox({
         )}
       </div>
 
-      {/* Quantité + Ajouter */}
-      <div className="flex items-stretch gap-3">
-        <div className="flex items-center rounded-md border-2 border-neutral-200">
-          <button
-            type="button"
-            onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="flex h-12 w-11 items-center justify-center text-neutral-600 hover:bg-neutral-100"
-            aria-label="Diminuer"
-          >
-            <Minus className="h-4 w-4" />
-          </button>
-          <span className="w-10 text-center font-bold">{qty}</span>
-          <button
-            type="button"
-            onClick={() => setQty((q) => Math.min(selected.stock || 99, q + 1))}
-            className="flex h-12 w-11 items-center justify-center text-neutral-600 hover:bg-neutral-100"
-            aria-label="Augmenter"
-          >
-            <Plus className="h-4 w-4" />
-          </button>
+      {/* PRO en attente : panier bloqué */}
+      {!purchasable ? (
+        <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+          <Clock className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>
+            <strong>Compte PRO en attente de validation.</strong> Vous voyez déjà vos tarifs PRO,
+            mais vous pourrez commander une fois votre accès approuvé par Alexandre.
+          </span>
         </div>
-        <Button
-          size="lg"
-          disabled={outOfStock}
-          onClick={handleAdd}
-          data-testid="add-to-cart"
-          className="h-12 flex-1 text-base font-bold uppercase tracking-wide"
-        >
-          {added ? 'Ajouté au panier ✓' : 'Ajouter au panier'}
-        </Button>
-      </div>
-
-      {/* Barre livraison offerte */}
-      {!outOfStock && (
-        <div className="rounded-lg bg-neutral-100 p-3">
-          {remaining > 0 ? (
-            <p className="text-sm text-neutral-700">
-              Plus que <strong>{formatEuros(remaining)}</strong> pour la{' '}
-              <strong>livraison offerte</strong> !
-            </p>
-          ) : (
-            <p className="flex items-center gap-1 text-sm font-semibold text-green-700">
-              <Check className="h-4 w-4" /> Vous bénéficiez de la livraison offerte !
-            </p>
-          )}
-          <div className="mt-2 h-2 overflow-hidden rounded-full bg-neutral-200">
-            <div
-              className="h-full rounded-full bg-primary transition-all"
-              style={{ width: `${shipPct}%` }}
-            />
+      ) : (
+        <>
+          {/* Quantité + Ajouter */}
+          <div className="flex items-stretch gap-3">
+            <div className="flex items-center rounded-md border-2 border-neutral-200">
+              <button
+                type="button"
+                onClick={() => setQty((q) => Math.max(1, q - 1))}
+                className="flex h-12 w-11 items-center justify-center text-neutral-600 hover:bg-neutral-100"
+                aria-label="Diminuer"
+              >
+                <Minus className="h-4 w-4" />
+              </button>
+              <span className="w-10 text-center font-bold">{qty}</span>
+              <button
+                type="button"
+                onClick={() => setQty((q) => Math.min(selected.stock || 99, q + 1))}
+                className="flex h-12 w-11 items-center justify-center text-neutral-600 hover:bg-neutral-100"
+                aria-label="Augmenter"
+              >
+                <Plus className="h-4 w-4" />
+              </button>
+            </div>
+            <Button
+              size="lg"
+              disabled={outOfStock}
+              onClick={handleAdd}
+              data-testid="add-to-cart"
+              className="h-12 flex-1 text-base font-bold uppercase tracking-wide"
+            >
+              {added ? 'Ajouté au panier ✓' : 'Ajouter au panier'}
+            </Button>
           </div>
-        </div>
+
+          {/* Barre livraison offerte */}
+          {!outOfStock && (
+            <div className="rounded-lg bg-neutral-100 p-3">
+              {remaining > 0 ? (
+                <p className="text-sm text-neutral-700">
+                  Plus que <strong>{formatEuros(remaining)}</strong> pour la{' '}
+                  <strong>livraison offerte</strong> !
+                </p>
+              ) : (
+                <p className="flex items-center gap-1 text-sm font-semibold text-green-700">
+                  <Check className="h-4 w-4" /> Vous bénéficiez de la livraison offerte !
+                </p>
+              )}
+              <div className="mt-2 h-2 overflow-hidden rounded-full bg-neutral-200">
+                <div
+                  className="h-full rounded-full bg-primary transition-all"
+                  style={{ width: `${shipPct}%` }}
+                />
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Réassurance */}

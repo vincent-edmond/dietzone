@@ -1,7 +1,12 @@
 import Link from 'next/link'
 import type { ProductCard as ProductCardData } from '@/features/catalog/queries'
 import { formatEuros } from '@/lib/money'
-import { displayPriceCents, PUBLIC_PRICING, type PricingContext } from '@/features/pro/pricing'
+import {
+  computePriceSet,
+  showsProOffer,
+  PUBLIC_PRICING,
+  type PricingContext,
+} from '@/features/pro/pricing'
 
 export function ProductCard({
   p,
@@ -10,8 +15,8 @@ export function ProductCard({
   p: ProductCardData
   pricing?: PricingContext
 }) {
-  const shown = displayPriceCents(p.fromPriceCents, pricing)
-  const discounted = pricing.isPro && shown < p.fromPriceCents
+  const showPro = showsProOffer(pricing)
+  const prices = computePriceSet(p.fromPriceCents, p.vatRate, pricing)
 
   return (
     <Link
@@ -32,8 +37,8 @@ export function ProductCard({
             Rupture
           </span>
         )}
-        {discounted && (
-          <span className="absolute right-2 top-2 rounded bg-[#0A2540] px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+        {showPro && (
+          <span className="absolute right-2 top-2 rounded bg-navy px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
             Prix PRO
           </span>
         )}
@@ -45,17 +50,24 @@ export function ProductCard({
           </span>
         )}
         <span className="line-clamp-2 text-sm font-semibold text-neutral-900">{p.name}</span>
-        <span className="mt-auto flex items-baseline gap-2 pt-2">
-          <span className="text-xl font-extrabold text-neutral-900">
-            <span className="text-xs font-medium text-neutral-400">dès </span>
-            {formatEuros(shown)}
-          </span>
-          {discounted && (
-            <span className="text-xs text-neutral-400 line-through">
-              {formatEuros(p.fromPriceCents)}
+        {showPro ? (
+          <span className="mt-auto flex flex-col pt-2">
+            <span className="text-[11px] text-neutral-400">
+              dès {formatEuros(prices.publicTtcCents)} TTC
             </span>
-          )}
-        </span>
+            <span className="text-lg font-extrabold text-navy">
+              {formatEuros(prices.proHtCents)}
+              <span className="ml-1 text-[11px] font-bold">HT PRO</span>
+            </span>
+          </span>
+        ) : (
+          <span className="mt-auto flex items-baseline gap-2 pt-2">
+            <span className="text-xl font-extrabold text-neutral-900">
+              <span className="text-xs font-medium text-neutral-400">dès </span>
+              {formatEuros(prices.publicTtcCents)}
+            </span>
+          </span>
+        )}
       </div>
     </Link>
   )

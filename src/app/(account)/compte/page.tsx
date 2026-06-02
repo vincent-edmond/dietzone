@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { requireUser } from '@/features/account/auth'
+import { getPricingContext } from '@/features/pro/context'
 import { ProfileForm } from '@/components/account/ProfileForm'
 import { SignOutButton } from '@/components/account/SignOutButton'
 
@@ -8,6 +9,7 @@ export const metadata: Metadata = { title: 'Mon compte' }
 
 export default async function ComptePage() {
   const user = await requireUser()
+  const pricing = await getPricingContext()
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
@@ -21,6 +23,16 @@ export default async function ComptePage() {
         <p className="mt-3 inline-block rounded-full bg-[#0A2540] px-3 py-1 text-xs font-semibold text-white">
           Compte PRO · tarifs préférentiels actifs
         </p>
+      )}
+
+      {pricing.isPendingPro && (
+        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <p className="font-semibold">Demande PRO en cours de validation</p>
+          <p className="mt-1 text-amber-700">
+            Vous pouvez déjà parcourir la boutique et consulter vos tarifs PRO (HT remisés). La
+            commande sera débloquée dès qu’Alexandre aura validé votre accès.
+          </p>
+        </div>
       )}
 
       {user.role === 'admin' && (
@@ -49,11 +61,14 @@ export default async function ComptePage() {
         <Link href="/compte/commandes" className="text-red-600 hover:underline">
           Mes commandes
         </Link>
-        {user.role !== 'pro' && (
-          <Link href="/pro" className="text-red-600 hover:underline">
-            Devenir partenaire PRO
-          </Link>
-        )}
+        {user.role !== 'pro' &&
+          (pricing.isPendingPro ? (
+            <span className="text-amber-700">Demande PRO en attente</span>
+          ) : (
+            <Link href="/pro" className="text-red-600 hover:underline">
+              Devenir partenaire PRO
+            </Link>
+          ))}
         <Link href="/boutique" className="text-neutral-600 hover:underline">
           Continuer mes achats
         </Link>

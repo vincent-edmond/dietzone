@@ -17,6 +17,7 @@ describe('ProductCard', () => {
           variantId: 'v1',
           variantLabel: null,
           stock: 5,
+          vatRate: 8.5,
         }}
       />,
     )
@@ -39,6 +40,7 @@ describe('ProductCard', () => {
           variantId: 'v2',
           variantLabel: null,
           stock: 0,
+          vatRate: 8.5,
         }}
       />,
     )
@@ -59,6 +61,7 @@ describe('ProductCard', () => {
           variantId: 'v1',
           variantLabel: null,
           stock: 5,
+          vatRate: 8.5,
         }}
       />,
     )
