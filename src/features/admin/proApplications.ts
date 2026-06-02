@@ -67,6 +67,57 @@ export async function approveApplication(id: string): Promise<void> {
   revalidatePath('/admin/demandes-pro')
 }
 
+export interface ProPartnerRow {
+  userId: string
+  email: string
+  fullName: string | null
+  phone: string | null
+  company: string | null
+  active: boolean
+}
+
+/** Liste tous les partenaires PRO (rôle pro), actifs ou désactivés. */
+export async function listProPartners(): Promise<ProPartnerRow[]> {
+  await requireRole('admin')
+  const sb = await createClient()
+  const { data: profs } = await sb
+    .from('profiles')
+    .select('id, email, full_name, phone, pro_disabled')
+    .eq('role', 'pro')
+    .order('email')
+  const rows = profs ?? []
+  const ids = rows.map((p) => p.id)
+  const { data: apps } = ids.length
+    ? await sb
+        .from('pro_applications')
+        .select('user_id, company_name, phone, created_at')
+        .in('user_id', ids)
+        .order('created_at', { ascending: false })
+    : { data: [] as { user_id: string; company_name: string; phone: string | null }[] }
+  const companyByUser: Record<string, string> = {}
+  const phoneByUser: Record<string, string> = {}
+  for (const a of apps ?? []) {
+    if (!(a.user_id in companyByUser)) companyByUser[a.user_id] = a.company_name
+    if (a.phone && !(a.user_id in phoneByUser)) phoneByUser[a.user_id] = a.phone
+  }
+  return rows.map((p) => ({
+    userId: p.id,
+    email: p.email,
+    fullName: p.full_name,
+    phone: p.phone ?? phoneByUser[p.id] ?? null,
+    company: companyByUser[p.id] ?? null,
+    active: !p.pro_disabled,
+  }))
+}
+
+/** Active / désactive les tarifs PRO d'un partenaire (le rôle reste 'pro'). */
+export async function setProActive(userId: string, active: boolean): Promise<void> {
+  await requireRole('admin')
+  const sb = await createClient()
+  await sb.from('profiles').update({ pro_disabled: !active }).eq('id', userId)
+  revalidatePath('/admin/demandes-pro')
+}
+
 export async function rejectApplication(id: string): Promise<void> {
   await requireRole('admin')
   const sb = await createClient()

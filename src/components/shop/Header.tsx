@@ -33,10 +33,10 @@ export function Header({ user = null }: { user?: NavUser }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-1.5 sm:py-2.5">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-0.5 sm:py-2.5">
         <Link href="/" aria-label="Accueil DietZone" className="flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-dietzone.png" alt="DietZone" className="h-10 w-auto sm:h-12" />
+          <img src="/logo-dietzone.png" alt="DietZone" className="h-9 w-auto sm:h-12" />
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -74,7 +74,7 @@ export function Header({ user = null }: { user?: NavUser }) {
 
           <Link
             href="/compte"
-            className={`flex h-11 w-11 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 ${
+            className={`flex h-9 w-9 items-center justify-center rounded-md sm:h-11 sm:w-11 text-neutral-700 hover:bg-neutral-100 ${
               isPro ? 'ring-2 ring-navy ring-offset-1' : ''
             }`}
             aria-label={user ? `Mon compte (${user.email})` : 'Mon compte'}
@@ -83,7 +83,7 @@ export function Header({ user = null }: { user?: NavUser }) {
           </Link>
           <Link
             href="/panier"
-            className="relative flex h-11 w-11 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100"
+            className="relative flex h-9 w-9 items-center justify-center rounded-md sm:h-11 sm:w-11 text-neutral-700 hover:bg-neutral-100"
             aria-label="Panier"
           >
             <ShoppingCart className="h-5 w-5" />
@@ -96,7 +96,7 @@ export function Header({ user = null }: { user?: NavUser }) {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="flex h-11 w-11 items-center justify-center rounded-md text-neutral-700 hover:bg-neutral-100 md:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-md sm:h-11 sm:w-11 text-neutral-700 hover:bg-neutral-100 md:hidden"
             aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-expanded={open}
           >

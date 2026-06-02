@@ -10,7 +10,7 @@ export async function getPricingContext(): Promise<PricingContext> {
   if (!user) {
     return { isPro: false, proPercent: settings.proDiscountPercent, isPendingPro: false }
   }
-  const isPro = isProPricing(user.role)
+  const isPro = isProPricing(user.role) && !user.proDisabled
   let isPendingPro = false
   if (!isPro && user.role === 'customer') {
     const sb = await createClient()

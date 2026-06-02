@@ -1,15 +1,17 @@
 import type { Metadata } from 'next'
 import {
   listPendingApplications,
+  listProPartners,
   approveApplication,
   rejectApplication,
 } from '@/features/admin/proApplications'
+import { ProPartnerRow } from '@/components/admin/ProPartnerRow'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = { title: 'Demandes PRO' }
 
 export default async function DemandesProPage() {
-  const apps = await listPendingApplications()
+  const [apps, partners] = await Promise.all([listPendingApplications(), listProPartners()])
 
   return (
     <div>
@@ -77,6 +79,26 @@ export default async function DemandesProPage() {
           ))}
         </ul>
       )}
+
+      {/* Partenaires PRO (tous, actifs ou désactivés) */}
+      <section className="mt-12">
+        <h2 className="text-xl font-bold tracking-tight">Partenaires PRO</h2>
+        <p className="mt-1 text-sm text-neutral-500">
+          {partners.length} partenaire(s){' '}
+          {partners.length > 0 &&
+            `· ${partners.filter((p) => p.active).length} actif(s)`}
+          . Désactivez un compte pour suspendre ses tarifs PRO sans le supprimer.
+        </p>
+        {partners.length === 0 ? (
+          <p className="mt-4 text-sm text-neutral-500">Aucun partenaire PRO pour l’instant.</p>
+        ) : (
+          <ul className="mt-4 flex flex-col gap-3">
+            {partners.map((p) => (
+              <ProPartnerRow key={p.userId} partner={p} />
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   )
 }

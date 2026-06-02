@@ -9,6 +9,8 @@ export interface CurrentUser {
   role: Role
   fullName: string | null
   phone: string | null
+  /** PRO désactivé par l'admin : reste 'pro' mais sans tarifs préférentiels. */
+  proDisabled: boolean
 }
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {
@@ -20,7 +22,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 
   const { data: profile } = await sb
     .from('profiles')
-    .select('role, full_name, phone, email')
+    .select('role, full_name, phone, email, pro_disabled')
     .eq('id', user.id)
     .maybeSingle()
 
@@ -30,6 +32,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     role: (profile?.role ?? 'customer') as Role,
     fullName: profile?.full_name ?? null,
     phone: profile?.phone ?? null,
+    proDisabled: Boolean(profile?.pro_disabled),
   }
 }
 
